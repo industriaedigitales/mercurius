@@ -1,6 +1,14 @@
 {
   "appId": "com.industriaedigitales.mercurius",
   "files": ["dist-electron", "dist-react"],
+  "extraResources": [
+    "dist-electron/preload.cjs",
+    "src/assets/**",
+    {
+      "from": "src/web/server.mjs",
+      "to": "server/server.mjs"
+    }
+  ],
   "icon": "./desktopIcon.png",
   "mac": {
     "target": "dmg"
