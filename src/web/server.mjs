@@ -10,7 +10,7 @@ import { serveStatic } from "@hono/node-server/serve-static";
 // --- Percorsi base ---
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const UPLOAD_DIR = path.resolve(__dirname, "uploads");
+const UPLOAD_DIR = process.argv[2] || path.resolve(__dirname, "uploads");
 
 // Determine path to dist-react (where built assets are)
 // In dev: we might not use this fully if we use Vite dev server, but for production/build:

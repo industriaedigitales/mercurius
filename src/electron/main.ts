@@ -1,9 +1,10 @@
-import { app, BrowserWindow, Tray } from "electron";
+import { app, BrowserWindow, Tray, dialog } from "electron";
 import path from "path";
 import { ipcHandle, isDev } from "./utils.js";
 import { getAssetPath, getPreloadPath, getUiPath } from "./pathResolver.js";
 import { listFiles, writeToFile } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
+import { getUploadDirectory, setUploadDirectory } from "./store.js";
 
 import os from "os";
 
@@ -43,7 +44,10 @@ function startWebServer() {
     
     console.log("Server path:", serverPath);
 
-    const child = spawn(process.execPath, [serverPath], {
+    const uploadDir = getUploadDirectory();
+    console.log("Upload directory:", uploadDir);
+
+    const child = spawn(process.execPath, [serverPath, uploadDir], {
       stdio: "inherit",
     });
 
@@ -116,6 +120,31 @@ app.on("ready", () => {
     } else {
       stopWebServer();
     }
+  });
+
+  ipcHandle("getUploadDirectory", () => {
+    return getUploadDirectory();
+  });
+
+  ipcHandle("selectDirectory", async () => {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ["openDirectory"],
+    });
+
+    if (result.canceled || result.filePaths.length === 0) {
+      return null;
+    }
+
+    const newDir = result.filePaths[0];
+    setUploadDirectory(newDir);
+    
+    // Restart server if running to apply new directory
+    if (webServerProcess) {
+      stopWebServer();
+      startWebServer();
+    }
+
+    return newDir;
   });
 
   /*   new Tray(

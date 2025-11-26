@@ -1,0 +1,46 @@
+import { app } from 'electron';
+import path from 'path';
+import fs from 'fs';
+
+interface Settings {
+  uploadDirectory: string;
+}
+
+const userDataPath = app.getPath('userData');
+const settingsPath = path.join(userDataPath, 'settings.json');
+
+const defaultSettings: Settings = {
+  uploadDirectory: path.join(app.getPath('home'), 'Downloads', 'MercuriusUploads'),
+};
+
+export function getSettings(): Settings {
+  try {
+    if (!fs.existsSync(settingsPath)) {
+      saveSettings(defaultSettings);
+      return defaultSettings;
+    }
+    const data = fs.readFileSync(settingsPath, 'utf-8');
+    return { ...defaultSettings, ...JSON.parse(data) };
+  } catch (error) {
+    console.error('Error reading settings:', error);
+    return defaultSettings;
+  }
+}
+
+export function saveSettings(settings: Settings): void {
+  try {
+    fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+  } catch (error) {
+    console.error('Error saving settings:', error);
+  }
+}
+
+export function getUploadDirectory(): string {
+  return getSettings().uploadDirectory;
+}
+
+export function setUploadDirectory(dir: string): void {
+  const settings = getSettings();
+  settings.uploadDirectory = dir;
+  saveSettings(settings);
+}

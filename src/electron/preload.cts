@@ -9,6 +9,8 @@ electron.contextBridge.exposeInMainWorld("electron", {
   writeMyString: () => ipcInvoke("writeMyString"),
   getServerIp: () => ipcInvoke("getServerIp"),
   toggleServer: (enable) => ipcInvoke("toggleServer", enable),
+  selectDirectory: () => ipcInvoke("selectDirectory"),
+  getUploadDirectory: () => ipcInvoke("getUploadDirectory"),
 } satisfies Window["electron"]);
 
 function ipcInvoke<Key extends keyof EventPayloadMapping>(
