@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function UploadFileScreen() {
+  const { t } = useTranslation();
   const [files, setFiles] = useState<FileList | null>(null);
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -38,19 +40,19 @@ export function UploadFileScreen() {
 
       if (response.ok) {
         setStatus('success');
-        setMessage('Files uploaded successfully!');
+        setMessage(t('upload.success'));
         setFiles(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
       } else {
         setStatus('error');
-        setMessage('Upload failed. Please try again.');
+        setMessage(t('upload.error'));
       }
     } catch (error) {
       console.error('Upload error:', error);
       setStatus('error');
-      setMessage('Network error. Please try again.');
+      setMessage(t('upload.error'));
     } finally {
       setUploading(false);
     }
@@ -64,7 +66,7 @@ export function UploadFileScreen() {
             <span className="material-symbols-outlined text-4xl">cloud_upload</span>
           </div>
           <h1 className="text-3xl font-bold text-white">Mercurius Upload</h1>
-          <p className="mt-2 text-text-medium">Select files to send to your computer</p>
+          <p className="mt-2 text-text-medium">{t('upload.title')}</p>
         </header>
 
         <form onSubmit={handleUpload} className="flex flex-col gap-6">
@@ -94,8 +96,8 @@ export function UploadFileScreen() {
             ) : (
               <div className="flex flex-col items-center gap-2">
                 <span className="material-symbols-outlined text-4xl text-text-medium">add_circle</span>
-                <p className="font-medium text-white">Tap to select files</p>
-                <p className="text-sm text-text-medium">Images, Videos, Audio</p>
+                <p className="font-medium text-white">{t('upload.selectFiles')}</p>
+                <p className="text-sm text-text-medium">{t('upload.dragDrop')}</p>
               </div>
             )}
           </div>
@@ -108,7 +110,7 @@ export function UploadFileScreen() {
             {uploading ? (
               <span className="material-symbols-outlined animate-spin">progress_activity</span>
             ) : (
-              'Send Files'
+              t('upload.title')
             )}
           </button>
         </form>

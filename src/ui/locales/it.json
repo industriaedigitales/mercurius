@@ -1,0 +1,48 @@
+{
+  "common": {
+    "appName": "Mercurius",
+    "cancel": "Annulla",
+    "save": "Salva Modifiche",
+    "delete": "Elimina",
+    "keep": "Mantieni",
+    "browse": "Sfoglia",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previewNotAvailable": "Anteprima non disponibile",
+    "filename": "Nome file",
+    "noFiles": "Nessun file ricevuto ancora",
+    "allFiles": "Tutti i file"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "transfers": "Trasferimenti",
+    "devices": "Dispositivi",
+    "settings": "Impostazioni",
+    "gallery": "Galleria"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "subtitle": "Gestisci le preferenze dell'applicazione",
+    "defaultSaveLocation": "Posizione di salvataggio predefinita",
+    "saveLocationHelp": "Qui verranno salvati tutti i file ricevuti."
+  },
+  "main": {
+    "readyToReceive": "Pronto a ricevere file",
+    "serverRunning": "Il server è in esecuzione",
+    "serverStopped": "Il server è fermo",
+    "scanQr": "Scansiona questo codice QR per connetterti",
+    "openBrowser": "o apri questo URL nel tuo browser",
+    "startServer": "Avvia Server",
+    "stopServer": "Ferma Server"
+  },
+  "upload": {
+    "title": "Invia File",
+    "dragDrop": "Trascina qui i file",
+    "or": "oppure",
+    "selectFiles": "Seleziona File",
+    "uploading": "Caricamento in corso...",
+    "success": "Caricamento Riuscito!",
+    "error": "Caricamento Fallito"
+  }
+}

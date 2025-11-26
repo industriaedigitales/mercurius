@@ -1,0 +1,48 @@
+{
+  "common": {
+    "appName": "Mercurius",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "delete": "Delete",
+    "keep": "Keep",
+    "browse": "Browse",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previewNotAvailable": "Preview not available",
+    "filename": "Filename",
+    "noFiles": "No files received yet",
+    "allFiles": "All Files"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "transfers": "Transfers",
+    "devices": "Devices",
+    "settings": "Settings",
+    "gallery": "Gallery"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your application preferences",
+    "defaultSaveLocation": "Default Save Location",
+    "saveLocationHelp": "This is where all your received files will be saved."
+  },
+  "main": {
+    "readyToReceive": "Ready to receive files",
+    "serverRunning": "Server is running",
+    "serverStopped": "Server is stopped",
+    "scanQr": "Scan this QR code to connect",
+    "openBrowser": "or open this URL in your browser",
+    "startServer": "Start Server",
+    "stopServer": "Stop Server"
+  },
+  "upload": {
+    "title": "Send Files",
+    "dragDrop": "Drag and drop files here",
+    "or": "or",
+    "selectFiles": "Select Files",
+    "uploading": "Uploading...",
+    "success": "Upload Successful!",
+    "error": "Upload Failed"
+  }
+}

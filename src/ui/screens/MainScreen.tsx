@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { TopNavBar } from '../components/TopNavBar';
 import { Link } from 'react-router-dom';
 import QRCode from "react-qr-code";
+import { useTranslation } from 'react-i18next';
 
 export function MainScreen() {
+  const { t } = useTranslation();
   const [serverEnabled, setServerEnabled] = useState(true);
   const [serverIp, setServerIp] = useState<string>("");
 
@@ -26,8 +28,8 @@ export function MainScreen() {
         
         <main className="flex flex-1 flex-col items-center justify-center gap-8 p-6 md:p-10">
           <div className="text-center">
-            <h1 className="text-text-light tracking-light text-[32px] font-bold leading-tight">Scan to Connect</h1>
-            <p className="text-text-medium text-base font-normal leading-normal pt-2">Use your smartphone camera to scan the QR code and connect instantly.</p>
+            <h1 className="text-text-light tracking-light text-[32px] font-bold leading-tight">{t('main.scanQr')}</h1>
+            <p className="text-text-medium text-base font-normal leading-normal pt-2">{t('main.openBrowser')}</p>
           </div>
           
           <div className="flex w-full max-w-64 grow-0 bg-[#111722] @container">
@@ -51,8 +53,8 @@ export function MainScreen() {
             <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-[#324467] bg-[#111722] p-5 @[480px]:flex-row">
               <div className="flex items-center gap-3">
                 <div className="flex flex-col gap-1">
-                  <p className="text-base font-bold leading-tight text-text-light">Server Status</p>
-                  <p className="text-sm font-normal leading-normal text-text-medium">Toggle the server to start or stop sharing.</p>
+                  <p className="text-base font-bold leading-tight text-text-light">{serverEnabled ? t('main.serverRunning') : t('main.serverStopped')}</p>
+                  <p className="text-sm font-normal leading-normal text-text-medium">{t('main.readyToReceive')}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -71,8 +73,8 @@ export function MainScreen() {
           </div>
 
           <div className="flex gap-4">
-             <Link to="/settings" className="text-blue-400 hover:underline">Settings</Link>
-             <Link to="/gallery" className="text-blue-400 hover:underline">Gallery</Link>
+             <Link to="/settings" className="text-blue-400 hover:underline">{t('sidebar.settings')}</Link>
+             <Link to="/gallery" className="text-blue-400 hover:underline">{t('sidebar.gallery')}</Link>
           </div>
         </main>
       </div>
