@@ -6,7 +6,6 @@ electron.contextBridge.exposeInMainWorld("electron", {
       callback(fileList);
     });
   },
-  writeMyString: () => ipcInvoke("writeMyString"),
   getServerIp: () => ipcInvoke("getServerIp"),
   toggleServer: (enable) => ipcInvoke("toggleServer", enable),
   selectDirectory: () => ipcInvoke("selectDirectory"),

@@ -106,9 +106,7 @@ app.on("ready", () => {
     setTimeout(() => listFiles(mainWindow), 1000);
   });
 
-  ipcHandle("writeMyString", () => {
-    return writeToFile();
-  });
+
 
   ipcHandle("getServerIp", () => {
     return getLanIp();
