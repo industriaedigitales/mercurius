@@ -1,7 +1,9 @@
 import { BrowserWindow } from "electron";
-import { readdirSync, statSync, createWriteStream } from "fs";
+import { readdirSync, statSync, createWriteStream, existsSync } from "fs";
 import { join } from "path";
 import { ipcWebContentSend } from "./utils.js";
+
+import { getUploadDirectory } from "./store.js";
 
 /**
  * Legge i file presenti in una directory e restituisce un array di nomi di file.
@@ -11,7 +13,12 @@ import { ipcWebContentSend } from "./utils.js";
 export function listFiles(mainWindow: BrowserWindow): string[] {
   try {
     // Legge tutti gli elementi nella directory
-    const FILE_PATH = "/Users/lucapulina/Desktop/Stella";
+    const FILE_PATH = getUploadDirectory();
+    
+    if (!existsSync(FILE_PATH)) {
+       return [];
+    }
+
     const items = readdirSync(FILE_PATH);
 
     // Filtra solo i file (esclude sottocartelle)

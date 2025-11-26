@@ -126,6 +126,10 @@ app.on("ready", () => {
     return getUploadDirectory();
   });
 
+  ipcHandle("getFiles", () => {
+    return listFiles(mainWindow);
+  });
+
   ipcHandle("selectDirectory", async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ["openDirectory"],
@@ -143,6 +147,9 @@ app.on("ready", () => {
       stopWebServer();
       startWebServer();
     }
+
+    // Refresh file list for the new directory
+    listFiles(mainWindow);
 
     return newDir;
   });

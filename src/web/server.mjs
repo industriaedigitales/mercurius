@@ -48,6 +48,12 @@ const app = new Hono();
 app.use("/assets/*", serveStatic({ root: DIST_DIR }));
 app.use("/vite.svg", serveStatic({ root: DIST_DIR }));
 
+// Serve uploads
+app.use("/uploads/*", serveStatic({ 
+  root: UPLOAD_DIR,
+  rewriteRequestPath: (path) => path.replace(/^\/uploads/, ""),
+}));
+
 // ✅ Route principale: serve mobile.html
 app.get("/", async (c) => {
   // In production, serve the built mobile.html

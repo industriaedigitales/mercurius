@@ -7,6 +7,7 @@ type EventPayloadMapping = {
   toggleServer: void;
   selectDirectory: string | null;
   getUploadDirectory: string;
+  getFiles: MercuriusFiles;
 };
 
 type UnsubscribeFunction = () => void;
@@ -21,5 +22,6 @@ interface Window {
     toggleServer: (enable: boolean) => Promise<void>;
     selectDirectory: () => Promise<string | null>;
     getUploadDirectory: () => Promise<string>;
+    getFiles: () => Promise<MercuriusFiles>;
   };
 }
