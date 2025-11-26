@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TopNavBar } from '../components/TopNavBar';
 import { Link } from 'react-router-dom';
+import QRCode from "react-qr-code";
 
 export function MainScreen() {
   const [serverEnabled, setServerEnabled] = useState(true);
+  const [serverIp, setServerIp] = useState<string>("");
+
+  useEffect(() => {
+    // Get initial IP
+    window.electron.getServerIp().then((ip) => {
+      setServerIp(ip);
+    });
+  }, []);
+
+  const handleToggleServer = async (checked: boolean) => {
+    setServerEnabled(checked);
+    await window.electron.toggleServer(checked);
+  };
 
   return (
     <div className="relative flex h-screen w-full flex-col items-center justify-center bg-[#101622] group/design-root overflow-hidden p-4">
@@ -17,8 +31,19 @@ export function MainScreen() {
           </div>
           
           <div className="flex w-full max-w-64 grow-0 bg-[#111722] @container">
-            <div className="w-full gap-1 overflow-hidden rounded-lg bg-white p-4 @[480px]:gap-2">
-              <div className="aspect-square w-full bg-center bg-no-repeat bg-contain" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCeoFhZJ5fynMr0Qg8NIofw0y5UCe2DVV0kmL7ngELeY9Zbu_ZtPyRQka9HoEmsrQpS02xmsvOg_YBDFGdaYFgzpFqym0tRG3iGtNNNvchdvbsVtdHtFfM5TXKoGl5MKLOmK-PChq2xXt2JkuoEIDpUSasYh0Mf9Jv-B4M1W-e4wn0wLpBTDcaeQVRZHx3aoDmAW15InnyQOHkATDRMD823uzPCb8mE17-Stq3MCedry-kRea1D6FP7hcK4gHgLnZUcajZihZOcy7c")' }}></div>
+            <div className="w-full gap-1 overflow-hidden rounded-lg bg-white p-4 @[480px]:gap-2 flex items-center justify-center">
+              {serverIp ? (
+                 <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
+                  <QRCode
+                    size={256}
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                    value={`http://${serverIp}:3000`}
+                    viewBox={`0 0 256 256`}
+                  />
+                </div>
+              ) : (
+                <div className="aspect-square w-full bg-gray-200 animate-pulse"></div>
+              )}
             </div>
           </div>
           
@@ -36,7 +61,7 @@ export function MainScreen() {
                   <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
                   <input 
                     checked={serverEnabled} 
-                    onChange={(e) => setServerEnabled(e.target.checked)} 
+                    onChange={(e) => handleToggleServer(e.target.checked)} 
                     className="invisible absolute" 
                     type="checkbox"
                   />

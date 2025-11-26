@@ -7,12 +7,15 @@ electron.contextBridge.exposeInMainWorld("electron", {
     });
   },
   writeMyString: () => ipcInvoke("writeMyString"),
+  getServerIp: () => ipcInvoke("getServerIp"),
+  toggleServer: (enable) => ipcInvoke("toggleServer", enable),
 } satisfies Window["electron"]);
 
 function ipcInvoke<Key extends keyof EventPayloadMapping>(
-  key: Key
+  key: Key,
+  payload?: any
 ): Promise<EventPayloadMapping[Key]> {
-  return electron.ipcRenderer.invoke(key);
+  return electron.ipcRenderer.invoke(key, payload);
 }
 
 function ipcOn<Key extends keyof EventPayloadMapping>(

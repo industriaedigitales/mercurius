@@ -5,38 +5,80 @@ import { getAssetPath, getPreloadPath, getUiPath } from "./pathResolver.js";
 import { listFiles, writeToFile } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
 
+import os from "os";
+
 let webServerProcess: ChildProcess | null = null;
 
-function startWebServer() {
-  try {
-    if (isDev()) {
-      const serverPath = path.join(process.cwd(), "src", "web", "server.mjs");
-      webServerProcess = spawn(process.execPath, [serverPath], {
-        stdio: "inherit",
-      });
-    } else {
-      // in produzione copia server.mjs in extraResources (vedi package.json build.extraResources)
-      const serverPath = path.join(
-        process.resourcesPath,
-        "server",
-        "server.mjs"
-      );
-      webServerProcess = spawn(process.execPath, [serverPath], {
-        stdio: "inherit",
-      });
+function getLanIp() {
+  const interfaces = os.networkInterfaces();
+  for (const iface of Object.values(interfaces)) {
+    if (!iface) continue;
+    for (const { address, family } of iface) {
+      if (
+        family === "IPv4" &&
+        !address.startsWith("127.") &&
+        !address.startsWith("169.254")
+      ) {
+        return address;
+      }
     }
+  }
+  return "N/A";
+}
 
-    webServerProcess.on("error", (err) => {
+function startWebServer() {
+  if (webServerProcess) {
+    console.log("Web server already running.");
+    return;
+  }
+
+  console.log("Starting web server...");
+  try {
+    let serverPath: string;
+    if (isDev()) {
+      serverPath = path.join(process.cwd(), "src", "web", "server.mjs");
+    } else {
+      serverPath = path.join(process.resourcesPath, "server", "server.mjs");
+    }
+    
+    console.log("Server path:", serverPath);
+
+    const child = spawn(process.execPath, [serverPath], {
+      stdio: "inherit",
+    });
+
+    webServerProcess = child;
+
+    child.on("error", (err) => {
       console.error("Web server error:", err);
+      if (webServerProcess === child) {
+        webServerProcess = null;
+      }
+    });
+    
+    child.on("exit", (code, signal) => {
+      console.log(`Web server exited with code ${code} and signal ${signal}`);
+      if (webServerProcess === child) {
+        webServerProcess = null;
+      }
     });
 
     app.on("will-quit", () => {
-      if (webServerProcess && !webServerProcess.killed) {
-        webServerProcess.kill();
-      }
+      stopWebServer();
     });
   } catch (err) {
     console.error("Failed to start web server:", err);
+  }
+}
+
+function stopWebServer() {
+  console.log("Stopping web server...");
+  if (webServerProcess) {
+    webServerProcess.kill();
+    webServerProcess = null;
+    console.log("Web server stopped.");
+  } else {
+    console.log("No web server to stop.");
   }
 }
 
@@ -62,6 +104,18 @@ app.on("ready", () => {
 
   ipcHandle("writeMyString", () => {
     return writeToFile();
+  });
+
+  ipcHandle("getServerIp", () => {
+    return getLanIp();
+  });
+
+  ipcHandle("toggleServer", (enable: boolean) => {
+    if (enable) {
+      startWebServer();
+    } else {
+      stopWebServer();
+    }
   });
 
   /*   new Tray(
