@@ -49,19 +49,6 @@ export function SideNavBar() {
             <p className="text-sm font-medium">Settings</p>
           </NavLink>
         </nav>
-        <div className="flex flex-col gap-4">
-          <a className="flex items-center gap-3 px-3 py-2 text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full" href="#">
-            <span className="material-symbols-outlined text-black/60 dark:text-white/60">help</span>
-            <p className="text-sm font-medium">Help</p>
-          </a>
-          <div className="flex items-center gap-3">
-            <div className="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="User avatar" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQc-ksCX64sAY-rlW7NPkETQcYLf8v_c0rXWXmdWbhmqif1SpY_ii2Gtp8EUUEdOxDh8CsriBl0R2rzoSPHqWgLX4lZFrqLh6WPq3qYkAFxevfLv_wDYThq6AVVw1gvM9UQpN45JhkUQUe7t0sF3GGpmQBTlkrWZGIVt39boFFsOMBB011bUOPm2NIXWbEe9EXwV1S4XvDPWtfc0WwCyy6v38nx-pr6zreM9adegxVqOUCVcHR7KQiJPQshFxTrRMVc_cSUPhAi0U")' }}></div>
-            <div className="flex flex-col">
-              <h2 className="text-sm font-medium text-black dark:text-white">Alex Green</h2>
-              <p className="text-xs text-black/60 dark:text-white/60">alex.green@example.com</p>
-            </div>
-          </div>
-        </div>
       </div>
     </aside>
   );

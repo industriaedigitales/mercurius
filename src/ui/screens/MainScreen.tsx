@@ -20,7 +20,7 @@ export function MainScreen() {
   };
 
   return (
-    <div className="relative flex h-screen w-full flex-col items-center justify-center bg-[#101622] group/design-root overflow-hidden p-4">
+    <div className="relative flex h-full w-full flex-col items-center justify-center bg-[#101622] group/design-root overflow-hidden p-4">
       <div className="flex h-full w-full max-w-lg flex-col rounded-lg bg-[#111722] shadow-2xl ring-1 ring-white/10">
         <TopNavBar />
         

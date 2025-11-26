@@ -12,19 +12,9 @@ export function TopNavBar() {
             <defs><clipPath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clipPath></defs>
           </svg>
         </div>
-        <h2 className="text-text-light text-base font-bold leading-tight tracking-[-0.015em]">QuickDrop</h2>
+        <h2 className="text-text-light text-base font-bold leading-tight tracking-[-0.015em]">Mercurius</h2>
       </div>
-      <div className="flex gap-2 no-drag">
-        <button className="flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#232f48] text-white transition-colors hover:bg-white/20">
-          <span className="material-symbols-outlined text-base">remove</span>
-        </button>
-        <button className="flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#232f48] text-white transition-colors hover:bg-white/20">
-          <span className="material-symbols-outlined text-base">crop_square</span>
-        </button>
-        <button className="flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#232f48] text-white transition-colors hover:bg-red-500/80">
-          <span className="material-symbols-outlined text-base">close</span>
-        </button>
-      </div>
+
     </header>
   );
 }

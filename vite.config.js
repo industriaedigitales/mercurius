@@ -7,6 +7,12 @@ export default defineConfig({
     base: "./",
     build: {
         outDir: "dist-react",
+        rollupOptions: {
+            input: {
+                main: "index.html",
+                mobile: "mobile.html",
+            },
+        },
     },
     server: {
         port: 5123,
