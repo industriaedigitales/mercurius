@@ -3,17 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { SideNavBar } from '../components/SideNavBar';
 
 export function SettingsScreen() {
-  const { t } = useTranslation();
-  const [uploadDir, setUploadDir] = useState<string>('');
+  const { t, i18n } = useTranslation();
+  const [uploadDirectory, setUploadDirectory] = useState<string>("");
 
   useEffect(() => {
-    window.electron.getUploadDirectory().then(setUploadDir);
+    window.electron.getUploadDirectory().then(setUploadDirectory);
   }, []);
 
   const handleBrowse = async () => {
     const dir = await window.electron.selectDirectory();
     if (dir) {
-      setUploadDir(dir);
+      setUploadDirectory(dir);
     }
   };
 
@@ -37,7 +37,7 @@ export function SettingsScreen() {
                       <input 
                         className="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l border border-black/20 bg-black/5 p-4 text-base font-normal text-black placeholder:text-black/50 focus:border-primary focus:outline-0 focus:ring-0 dark:border-white/20 dark:bg-white/5 dark:text-white dark:placeholder:text-white/50" 
                         readOnly 
-                        value={uploadDir}
+                        value={uploadDirectory}
                       />
                       <div className="flex items-center justify-center border border-l-0 border-black/20 bg-black/5 pr-4 dark:border-white/20 dark:bg-white/5">
                         <span className="material-symbols-outlined text-black/60 dark:text-white/60">folder</span>
@@ -52,6 +52,24 @@ export function SettingsScreen() {
                   </button>
                 </div>
                 <p className="pt-2 text-left text-sm font-normal text-black/60 dark:text-white/60">{t('settings.saveLocationHelp')}</p>
+              </div>
+            </section>
+
+            {/* Language Section */}
+            <section>
+              <h2 className="text-xl font-bold leading-tight text-black dark:text-white">{t('settings.language')}</h2>
+              <p className="pb-2 text-base font-medium text-black dark:text-white text-left">{t('settings.selectLanguage')}</p>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <select
+                    value={i18n.language}
+                    onChange={(e) => i18n.changeLanguage(e.target.value)}
+                    className="flex h-14 w-full max-w-[480px] items-center rounded-xl border border-black/10 bg-white px-4 text-base font-medium text-black focus:border-primary focus:outline-none dark:border-white/10 dark:bg-white/5 dark:text-white"
+                  >
+                    <option value="en">{t('settings.english')}</option>
+                    <option value="it">{t('settings.italian')}</option>
+                  </select>
+                </div>
               </div>
             </section>
           </div>

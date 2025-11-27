@@ -25,7 +25,12 @@
     "title": "Impostazioni",
     "subtitle": "Gestisci le preferenze dell'applicazione",
     "defaultSaveLocation": "Posizione di salvataggio predefinita",
-    "saveLocationHelp": "Qui verranno salvati tutti i file ricevuti."
+    "saveLocationHelp": "Qui verranno salvati tutti i file ricevuti.",
+    "browse": "Sfoglia",
+    "language": "Lingua",
+    "selectLanguage": "Seleziona Lingua",
+    "english": "Inglese",
+    "italian": "Italiano"
   },
   "main": {
     "readyToReceive": "Pronto a ricevere file",

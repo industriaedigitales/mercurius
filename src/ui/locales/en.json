@@ -25,7 +25,11 @@
     "title": "Settings",
     "subtitle": "Manage your application preferences",
     "defaultSaveLocation": "Default Save Location",
-    "saveLocationHelp": "This is where all your received files will be saved."
+    "browse": "Browse",
+    "language": "Language",
+    "selectLanguage": "Select Language",
+    "english": "English",
+    "italian": "Italian"
   },
   "main": {
     "readyToReceive": "Ready to receive files",
