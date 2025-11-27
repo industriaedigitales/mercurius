@@ -48,10 +48,20 @@ function startWebServer() {
     console.log("Upload directory:", uploadDir);
 
     const child = spawn(process.execPath, [serverPath, uploadDir], {
-      stdio: "inherit",
+      stdio: ["inherit", "inherit", "inherit", "ipc"],
     });
 
     webServerProcess = child;
+
+    child.on("message", (message: any) => {
+      if (message && message.type === "device-connected") {
+        // Forward to renderer
+        const allWindows = BrowserWindow.getAllWindows();
+        allWindows.forEach(win => {
+          win.webContents.send("deviceConnected", message.payload);
+        });
+      }
+    });
 
     child.on("error", (err) => {
       console.error("Web server error:", err);

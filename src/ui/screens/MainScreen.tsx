@@ -3,18 +3,49 @@ import { TopNavBar } from '../components/TopNavBar';
 import { Link } from 'react-router-dom';
 import QRCode from "react-qr-code";
 import { useTranslation } from 'react-i18next';
+import { Toast, ToastType } from '../components/Toast';
+
+interface ToastMessage {
+  id: number;
+  type: ToastType;
+  title: string;
+  message: string;
+}
 
 export function MainScreen() {
   const { t } = useTranslation();
   const [serverEnabled, setServerEnabled] = useState(true);
   const [serverIp, setServerIp] = useState<string>("");
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   useEffect(() => {
     // Get initial IP
     window.electron.getServerIp().then((ip) => {
       setServerIp(ip);
     });
-  }, []);
+
+    // Subscribe to device connections
+    const unsubscribe = window.electron.subscribeDeviceConnected((deviceInfo) => {
+      addToast({
+        type: 'info',
+        title: t('main.newConnection'),
+        message: t('main.deviceConnected', { device: deviceInfo.deviceName })
+      });
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [t]);
+
+  const addToast = (toast: Omit<ToastMessage, 'id'>) => {
+    const id = Date.now();
+    setToasts((prev) => [...prev, { ...toast, id }]);
+  };
+
+  const removeToast = (id: number) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
 
   const handleToggleServer = async (checked: boolean) => {
     setServerEnabled(checked);
@@ -77,6 +108,19 @@ export function MainScreen() {
              <Link to="/gallery" className="text-blue-400 hover:underline">{t('sidebar.gallery')}</Link>
           </div>
         </main>
+      </div>
+
+      {/* Toast Notifications Area */}
+      <div className="pointer-events-none absolute right-4 top-4 flex w-full max-w-sm flex-col items-end gap-3 z-50">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            type={toast.type}
+            title={toast.title}
+            message={toast.message}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
       </div>
     </div>
   );

@@ -55,17 +55,41 @@ app.use("/uploads/*", serveStatic({
 }));
 
 // ✅ Route principale: serve mobile.html
+import { UAParser } from "ua-parser-js";
+
+// ... (existing imports)
+
+// ✅ Route principale: serve mobile.html
 app.get("/", async (c) => {
+  // Detect device
+  const userAgent = c.req.header("User-Agent");
+  if (userAgent && process.send) {
+    const parser = new UAParser(userAgent);
+    const result = parser.getResult();
+    const deviceType = result.device.type || "desktop";
+    const deviceVendor = result.device.vendor || "";
+    const deviceModel = result.device.model || "";
+    const osName = result.os.name || "";
+    
+    let deviceName = "Unknown Device";
+    if (deviceVendor && deviceModel) {
+      deviceName = `${deviceVendor} ${deviceModel}`;
+    } else if (osName) {
+      deviceName = osName + " Device";
+    }
+
+    process.send({
+      type: "device-connected",
+      payload: {
+        deviceName,
+        deviceType,
+        userAgent
+      }
+    });
+  }
+
   // In production, serve the built mobile.html
-  // In dev, we might want to redirect to Vite dev server if running separately, 
-  // but for simplicity let's assume we rely on the build or serve the file if exists.
-  // If running via `npm run dev`, the electron main process spawns this server.
-  // But the React dev server runs on 5123. 
-  // To make development easier for the mobile view, we should probably just serve the built file
-  // OR if we want HMR, we'd need to proxy.
-  // For now, let's serve the file from dist-react if it exists, otherwise fallback to a simple message
-  // telling the user to run `npm run build`.
-  
+  // ... (rest of the code)
   const mobileHtmlPath = path.join(DIST_DIR, "mobile.html");
   if (fs.existsSync(mobileHtmlPath)) {
     const content = fs.readFileSync(mobileHtmlPath, "utf-8");

@@ -31,8 +31,10 @@
     "readyToReceive": "Pronto a ricevere file",
     "serverRunning": "Il server è in esecuzione",
     "serverStopped": "Il server è fermo",
-    "scanQr": "Scansiona questo codice QR per connetterti",
-    "openBrowser": "o apri questo URL nel tuo browser",
+    "scanQr": "Scansiona per Connetterti",
+    "openBrowser": "Usa la fotocamera del tuo smartphone per scansionare il codice QR e connetterti istantaneamente.",
+    "newConnection": "Nuova Connessione",
+    "deviceConnected": "Dispositivo '{{device}}' connesso.",
     "startServer": "Avvia Server",
     "stopServer": "Ferma Server"
   },

@@ -11,6 +11,11 @@ electron.contextBridge.exposeInMainWorld("electron", {
   selectDirectory: () => ipcInvoke("selectDirectory"),
   getUploadDirectory: () => ipcInvoke("getUploadDirectory"),
   getFiles: () => ipcInvoke("getFiles"),
+  subscribeDeviceConnected: (callback) => {
+    return ipcOn("deviceConnected", (deviceInfo) => {
+      callback(deviceInfo);
+    });
+  },
 } satisfies Window["electron"]);
 
 function ipcInvoke<Key extends keyof EventPayloadMapping>(

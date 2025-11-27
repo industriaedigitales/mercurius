@@ -31,8 +31,10 @@
     "readyToReceive": "Ready to receive files",
     "serverRunning": "Server is running",
     "serverStopped": "Server is stopped",
-    "scanQr": "Scan this QR code to connect",
-    "openBrowser": "or open this URL in your browser",
+    "scanQr": "Scan to Connect",
+    "openBrowser": "Use your smartphone camera to scan the QR code and connect instantly.",
+    "newConnection": "New Connection",
+    "deviceConnected": "Device '{{device}}' connected.",
     "startServer": "Start Server",
     "stopServer": "Stop Server"
   },
