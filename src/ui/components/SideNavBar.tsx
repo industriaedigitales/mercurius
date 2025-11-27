@@ -15,42 +15,23 @@ export function SideNavBar() {
       </div>
       <div className="flex h-full flex-col justify-between">
         <nav className="flex flex-col gap-2">
-          <NavLink 
-            to="/" 
-            className={({ isActive }) => 
-              `flex items-center gap-3 rounded-full px-3 py-2 hover:bg-black/5 dark:hover:bg-white/5 ${isActive ? 'bg-primary/20 text-primary dark:text-white dark:bg-primary' : 'text-black dark:text-white'}`
-            }
-          >
-            <span className="material-symbols-outlined text-black/60 dark:text-white/60">grid_view</span>
-            <p className="text-sm font-medium">{t('sidebar.dashboard')}</p>
-          </NavLink>
-          <NavLink 
-            to="/transfers" 
-            className={({ isActive }) => 
-              `flex items-center gap-3 rounded-full px-3 py-2 hover:bg-black/5 dark:hover:bg-white/5 ${isActive ? 'bg-primary/20 text-primary dark:text-white dark:bg-primary' : 'text-black dark:text-white'}`
-            }
-          >
-            <span className="material-symbols-outlined text-black/60 dark:text-white/60">swap_horiz</span>
-            <p className="text-sm font-medium">{t('sidebar.transfers')}</p>
-          </NavLink>
-          <NavLink 
-            to="/devices" 
-            className={({ isActive }) => 
-              `flex items-center gap-3 rounded-full px-3 py-2 hover:bg-black/5 dark:hover:bg-white/5 ${isActive ? 'bg-primary/20 text-primary dark:text-white dark:bg-primary' : 'text-black dark:text-white'}`
-            }
-          >
-            <span className="material-symbols-outlined text-black/60 dark:text-white/60">devices</span>
-            <p className="text-sm font-medium">{t('sidebar.devices')}</p>
-          </NavLink>
-          <NavLink 
-            to="/settings" 
-            className={({ isActive }) => 
-              `flex items-center gap-3 rounded-full px-3 py-2 hover:bg-black/5 dark:hover:bg-white/5 ${isActive ? 'bg-primary/20 text-primary dark:text-white dark:bg-primary' : 'text-black dark:text-white'}`
-            }
-          >
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>settings</span>
-            <p className="text-sm font-medium">{t('sidebar.settings')}</p>
-          </NavLink>
+          {[
+            { path: '/', icon: 'grid_view', label: 'sidebar.dashboard' },
+            { path: '/', icon: 'swap_horiz', label: 'sidebar.transfers' },
+            { path: '/', icon: 'devices', label: 'sidebar.devices' },
+            { path: '/settings', icon: 'settings', label: 'sidebar.settings', iconStyle: { fontVariationSettings: "'FILL' 1" } }
+          ].map((item) => (
+            <NavLink 
+              key={item.path}
+              to={item.path} 
+              className={({ isActive }) => 
+                `flex items-center gap-3 rounded-full px-3 py-2 hover:bg-black/5 dark:hover:bg-white/5 ${isActive ? 'bg-primary/20 text-primary dark:text-white dark:bg-primary' : 'text-black dark:text-white'}`
+              }
+            >
+              <span className="material-symbols-outlined text-black/60 dark:text-white/60" style={item.iconStyle}>{item.icon}</span>
+              <p className="text-sm font-medium">{t(item.label)}</p>
+            </NavLink>
+          ))}
         </nav>
       </div>
     </aside>

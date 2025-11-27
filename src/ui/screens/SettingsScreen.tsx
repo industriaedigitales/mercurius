@@ -47,7 +47,7 @@ export function SettingsScreen() {
                         readOnly 
                         value={uploadDirectory}
                       />
-                      <div className="flex items-center justify-center border border-l-0 border-black/20 bg-black/5 pr-4 dark:border-white/20 dark:bg-white/5">
+                      <div className="flex items-center justify-center border border-l-0 border-black/20 bg-black/5 px-2 dark:border-white/20 dark:bg-white/5">
                         <span className="material-symbols-outlined text-black/60 dark:text-white/60">folder</span>
                       </div>
                     </div>
@@ -65,14 +65,13 @@ export function SettingsScreen() {
 
             {/* Language Section */}
             <section>
-              <h2 className="text-xl font-bold leading-tight text-black dark:text-white">{t('settings.language')}</h2>
-              <p className="pb-2 text-base font-medium text-black dark:text-white text-left">{t('settings.selectLanguage')}</p>
+              <p className="pb-4 text-base font-medium text-black dark:text-white text-left">{t('settings.selectLanguage')}</p>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <select
                     value={i18n.language}
                     onChange={(e) => i18n.changeLanguage(e.target.value)}
-                    className="flex h-14 w-full max-w-[480px] items-center rounded-xl border border-black/10 bg-white px-4 text-base font-medium text-black focus:border-primary focus:outline-none dark:border-white/10 dark:bg-white/5 dark:text-white"
+                    className="flex h-14 w-full max-w-[480px] items-center rounded-md border border-black/10 bg-white px-3 text-base font-medium text-black focus:border-primary focus:outline-none dark:border-white/10 dark:bg-white/5 dark:text-white"
                   >
                     <option value="en">{t('settings.english')}</option>
                     <option value="it">{t('settings.italian')}</option>

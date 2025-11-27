@@ -99,11 +99,17 @@ function stopWebServer() {
 app.on("ready", () => {
   startWebServer();
   const mainWindow = new BrowserWindow({
+    show: false,
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
     },
+  });
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.maximize();
+    mainWindow.show();
   });
 
   if (isDev()) {
