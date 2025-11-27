@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SideNavBar } from '../components/SideNavBar';
+import { TopNavBar } from '../components/TopNavBar';
+import { Link } from 'react-router-dom';
 
 export function SettingsScreen() {
   const { t, i18n } = useTranslation();
@@ -18,9 +20,15 @@ export function SettingsScreen() {
   };
 
   return (
-    <div className="flex min-h-full w-full bg-background-light dark:bg-background-dark font-display">
-      <SideNavBar />
-      <main className="flex-1 p-8">
+    <div className="flex h-screen w-full flex-col bg-background-light dark:bg-background-dark font-display">
+      <TopNavBar>
+        <Link to="/" className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-white/10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-10 px-2.5 hover:bg-white/20 transition-colors">
+          <span className="material-symbols-outlined text-white text-xl">close</span>
+        </Link>
+      </TopNavBar>
+      <div className="flex flex-1 overflow-hidden pt-[60px]">
+        <SideNavBar />
+        <main className="flex-1 overflow-y-auto p-8">
         <div className="mx-auto max-w-3xl">
           <header className="mb-10 flex flex-col items-start gap-2">
             <h1 className="text-4xl font-black tracking-[-0.033em] text-black dark:text-white">{t('settings.title')}</h1>
@@ -74,7 +82,8 @@ export function SettingsScreen() {
             </section>
           </div>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
