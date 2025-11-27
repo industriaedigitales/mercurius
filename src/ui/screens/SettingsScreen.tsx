@@ -46,7 +46,7 @@ export function SettingsScreen() {
                   </label>
                   <button 
                     onClick={handleBrowse}
-                    className="flex h-14 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary px-4 text-base font-bold leading-normal tracking-[0.015em] text-white transition-all hover:bg-primary/90 active:scale-[0.98]"
+                    className="rounded bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed cursor-pointer disabled:opacity-50"
                   >
                     {t('common.browse')}
                   </button>
@@ -54,11 +54,6 @@ export function SettingsScreen() {
                 <p className="pt-2 text-left text-sm font-normal text-black/60 dark:text-white/60">{t('settings.saveLocationHelp')}</p>
               </div>
             </section>
-          </div>
-          
-          <div className="mt-12 flex justify-end gap-4 border-t border-black/10 pt-6 dark:border-white/10">
-            <button className="rounded bg-black/5 px-6 py-3 text-sm font-medium text-black hover:bg-black/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10">{t('common.cancel')}</button>
-            <button className="rounded bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50" disabled>{t('common.save')}</button>
           </div>
         </div>
       </main>
