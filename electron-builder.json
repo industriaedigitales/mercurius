@@ -5,7 +5,7 @@
     "dist-electron/preload.cjs",
     "src/assets/**",
     {
-      "from": "src/web/server.mjs",
+      "from": "dist-server/server.mjs",
       "to": "server/server.mjs"
     }
   ],

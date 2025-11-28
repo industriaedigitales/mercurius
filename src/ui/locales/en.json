@@ -25,6 +25,7 @@
     "title": "Settings",
     "subtitle": "Manage your application preferences",
     "defaultSaveLocation": "Default Save Location",
+    "saveLocationHelp": "Choose where to save received files",
     "browse": "Browse",
     "language": "Language",
     "selectLanguage": "Select Language",
