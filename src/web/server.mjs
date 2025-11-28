@@ -159,7 +159,11 @@ app.post("/upload", async (c) => {
 
 // ✅ Avvio server
 const PORT = 3000;
-serve({ fetch: app.fetch, port: PORT });
+serve({
+  fetch: app.fetch,
+  port: PORT,
+  hostname: "0.0.0.0"
+});
 
 console.log(`🚀 Server Hono in esecuzione su http://localhost:${PORT}`);
 console.log(`📁 Upload directory: ${UPLOAD_DIR}`);

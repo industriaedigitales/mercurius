@@ -49,6 +49,7 @@ function startWebServer() {
 
     const child = spawn(process.execPath, [serverPath, uploadDir], {
       stdio: ["inherit", "inherit", "inherit", "ipc"],
+      env: { ...process.env, ELECTRON_RUN_AS_NODE: "1" },
     });
 
     webServerProcess = child;
