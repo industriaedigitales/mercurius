@@ -1,54 +1,103 @@
-# React + TypeScript + Vite
+# 🪐 Mercurius
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Your Ultimate Local File Transfer & Review Hub.**
 
-Currently, two official plugins are available:
+Mercurius is a modern, high-speed desktop application designed to bridge the gap between your mobile devices and your computer. It allows you to transfer photos and videos instantly over your local network—no cloud, no internet, no compression.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Once your files land on your desktop, Mercurius transforms into a powerful review station. With a **TikTok-style vertical gallery**, you can fly through your uploads, keeping the best shots and discarding the rest with lightning-fast keyboard shortcuts.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Why Mercurius?
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 🔒 **Private & Secure**
+Your data never leaves your local network. Files go directly from your phone to your computer. No third-party servers, no privacy risks.
+
+### ⚡ **Blazing Fast**
+Leveraging your local Wi-Fi speed, transfers are instantaneous. Forget about slow cloud uploads and downloads.
+
+### 🎮 **Gamified Review Workflow**
+Reviewing hundreds of photos can be tedious. Mercurius makes it fun and efficient:
+- **Vertical Scroll**: Smooth, snap-scrolling feed just like your favorite social apps.
+- **Keyboard First**: Use arrow keys to navigate and sort.
+    - ⬅️ **Left Arrow**: Keep (Green Check)
+    - ➡️ **Right Arrow**: Reject (Red X)
+
+### 📱 **Universal Compatibility**
+No need to install an app on your phone. Just scan the **QR Code** displayed on the desktop app, and you're ready to upload directly from your mobile browser.
+
+---
+
+## ✨ Key Features
+
+- **Instant Local Uploads**: Drag & drop or select files from your mobile device.
+- **Dynamic QR Code**: Automatically detects your local IP for seamless connection.
+- **Custom Upload Directory**: Choose exactly where your files are saved on your PC.
+- **Smart Gallery**:
+    - Supports Images (JPG, PNG, WEBP, SVG) and Videos (MP4, WEBM, MOV).
+    - Visual feedback for "Keep" vs "Reject" status.
+- **Multilingual**: Native support for **English** 🇬🇧 and **Italian** 🇮🇹.
+- **Dark Mode**: Sleek, eye-friendly interface for late-night editing sessions.
+
+---
+
+## 🛠️ Technical Setup
+
+Mercurius is built with cutting-edge web technologies wrapped in a robust Electron shell.
+
+### Prerequisites
+- **Node.js** (v18 or higher recommended)
+- **npm** (comes with Node.js)
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/mercurius.git
+    cd mercurius
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+### 🏃‍♂️ Running in Development
+
+To start the application in development mode (with hot-reload for both Renderer and Main processes):
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This command will:
+- Start the **Vite** dev server for the React UI.
+- Compile the **Electron** main process.
+- Launch the **Electron** window.
+- Start the internal **Hono** server for mobile uploads.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 📦 Building for Production
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+To create a distributable package for your OS (macOS, Windows, or Linux):
+
+```bash
+npm run build
 ```
+
+The output will be available in the `dist` folder.
+
+---
+
+## 💻 Tech Stack
+
+- **Electron**: Desktop runtime.
+- **React**: UI library.
+- **Vite**: Next-generation frontend tooling.
+- **Hono**: Ultra-fast web standard framework for the local upload server.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **TypeScript**: Type safety and developer experience.
+- **i18next**: Internationalization.
+
+---
+
+Made with ❤️ by Luca Pulina.
