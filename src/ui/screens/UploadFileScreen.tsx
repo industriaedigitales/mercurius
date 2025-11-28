@@ -1,65 +1,41 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useFileUpload } from '../hooks/useFileUpload';
 
 export function UploadFileScreen() {
-  const { t } = useTranslation();
-  const [files, setFiles] = useState<FileList | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t, i18n } = useTranslation();
+  const { 
+    files, 
+    uploading, 
+    status, 
+    message, 
+    fileInputRef, 
+    handleFileChange, 
+    handleUpload 
+  } = useFileUpload();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFiles(e.target.files);
-      setStatus('idle');
-      setMessage('');
-    }
-  };
-
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!files || files.length === 0) return;
-
-    setUploading(true);
-    setStatus('idle');
-
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('multimediaFile', files[i]);
-    }
-
-    try {
-      const response = await fetch('/upload', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setMessage(t('upload.success'));
-        setFiles(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-      } else {
-        setStatus('error');
-        setMessage(t('upload.error'));
-      }
-    } catch (error) {
-      console.error('Upload error:', error);
-      setStatus('error');
-      setMessage(t('upload.error'));
-    } finally {
-      setUploading(false);
-    }
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
   };
 
   return (
-    <div className="min-h-screen w-full bg-background-dark text-text-light font-display flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen w-full bg-background-dark text-text-light font-display flex flex-col items-center justify-center p-6 relative">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6 flex items-center bg-white/5 rounded-lg p-1 border border-white/10">
+        <button 
+          onClick={() => changeLanguage('en')}
+          className={`px-3 py-1.5 rounded-md text-sm font-bold transition-colors ${i18n.language === 'en' ? 'bg-primary text-white' : 'text-white/60 hover:text-white'}`}
+        >
+          EN
+        </button>
+        <button 
+          onClick={() => changeLanguage('it')}
+          className={`px-3 py-1.5 rounded-md text-sm font-bold transition-colors ${i18n.language === 'it' ? 'bg-primary text-white' : 'text-white/60 hover:text-white'}`}
+        >
+          IT
+        </button>
+      </div>
+
       <div className="w-full max-w-md flex flex-col gap-8">
         <header className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">

@@ -1,97 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { TopNavBar } from '../components/TopNavBar';
-
-type FileStatus = 'keep' | 'reject' | 'neutral';
+import { useGallery } from '../hooks/useGallery';
+import { useGalleryNavigation } from '../hooks/useGalleryNavigation';
+import { isImage, isVideo } from '../utils/fileTypes';
 
 export function GalleryScreen() {
   const { t } = useTranslation();
-  const [files, setFiles] = useState<string[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const [serverIp, setServerIp] = useState<string>("");
-  const [fileStatuses, setFileStatuses] = useState<Record<string, FileStatus>>({});
+  const { files, serverIp } = useGallery();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const unsubscribe = window.electron.subscribeFileList((newFiles) => {
-      setFiles(newFiles);
-    });
-    
-    window.electron.getServerIp().then(setServerIp);
-    window.electron.getFiles().then(setFiles);
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  // Sync scroll with selectedIndex
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const index = Math.round(container.scrollTop / container.clientHeight);
-      if (index !== selectedIndex && index >= 0 && index < files.length) {
-        setSelectedIndex(index);
-      }
-    };
-
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [files.length, selectedIndex]);
-
-  // Keyboard navigation and actions
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (files.length === 0) return;
-
-      const currentFile = files[selectedIndex];
-
-      switch (e.key) {
-        case 'ArrowUp':
-          e.preventDefault();
-          if (selectedIndex > 0) {
-            scrollToIndex(selectedIndex - 1);
-          }
-          break;
-        case 'ArrowDown':
-          e.preventDefault();
-          if (selectedIndex < files.length - 1) {
-            scrollToIndex(selectedIndex + 1);
-          }
-          break;
-        case 'ArrowLeft':
-          e.preventDefault();
-          setFileStatuses(prev => ({ ...prev, [currentFile]: 'keep' }));
-          break;
-        case 'ArrowRight':
-          e.preventDefault();
-          setFileStatuses(prev => ({ ...prev, [currentFile]: 'reject' }));
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [files, selectedIndex]);
-
-  const scrollToIndex = (index: number) => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({
-        top: index * scrollContainerRef.current.clientHeight,
-        behavior: 'smooth'
-      });
-    }
-  };
+  const { selectedIndex, fileStatuses, scrollToIndex } = useGalleryNavigation(files, scrollContainerRef);
 
   const handleFileClick = (index: number) => {
     scrollToIndex(index);
   };
-
-  const isImage = (filename: string) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(filename);
-  const isVideo = (filename: string) => /\.(mp4|webm|ogg|mov)$/i.test(filename);
 
   return (
     <div className="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-hidden font-display">
@@ -112,7 +35,7 @@ export function GalleryScreen() {
                   className="h-full w-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar"
                   style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
-                  {files.map((file, index) => {
+                  {files.map((file) => {
                     const fileUrl = serverIp ? `http://${serverIp}:3000/uploads/${file}` : null;
                     return (
                       <div key={file} className="h-full w-full snap-start flex items-center justify-center relative">
