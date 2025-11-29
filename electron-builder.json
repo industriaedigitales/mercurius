@@ -7,6 +7,10 @@
     {
       "from": "dist-server/server.mjs",
       "to": "server/server.mjs"
+    },
+    {
+      "from": "dist-react",
+      "to": "web-client"
     }
   ],
   "icon": "./desktopIcon.png",

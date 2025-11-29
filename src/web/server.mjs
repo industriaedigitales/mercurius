@@ -13,10 +13,13 @@ const __dirname = path.dirname(__filename);
 const UPLOAD_DIR = process.argv[2] || path.resolve(__dirname, "uploads");
 
 // Determine path to dist-react (where built assets are)
-// In dev: we might not use this fully if we use Vite dev server, but for production/build:
-// It should be ../../../dist-react relative to this file (src/web/server.mjs)
-// src/web/server.mjs -> src/web -> src -> root -> dist-react
-const DIST_DIR = path.resolve(__dirname, "..", "..", "dist-react");
+// In prod: ../web-client (sibling in Resources)
+// In dev: ../../dist-react (relative to src/web)
+let DIST_DIR = path.resolve(__dirname, "..", "web-client");
+
+if (!fs.existsSync(DIST_DIR)) {
+  DIST_DIR = path.resolve(__dirname, "..", "..", "dist-react");
+}
 
 // --- Assicurati che la directory di upload esista ---
 if (!fs.existsSync(UPLOAD_DIR)) {

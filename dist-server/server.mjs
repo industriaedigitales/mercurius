@@ -4103,7 +4103,10 @@ UAParser.ENGINE = UAParser.OS = enumerize([NAME, VERSION]);
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
 var UPLOAD_DIR = process.argv[2] || path.resolve(__dirname, "uploads");
-var DIST_DIR = path.resolve(__dirname, "..", "..", "dist-react");
+var DIST_DIR = path.resolve(__dirname, "..", "web-client");
+if (!fs.existsSync(DIST_DIR)) {
+  DIST_DIR = path.resolve(__dirname, "..", "..", "dist-react");
+}
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
