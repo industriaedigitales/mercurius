@@ -3,7 +3,7 @@ import { TopNavBar } from '../components/TopNavBar';
 import { Link } from 'react-router-dom';
 import QRCode from "react-qr-code";
 import { useTranslation } from 'react-i18next';
-import { Toast, ToastType } from '../components/Toast';
+import { Toast, ToastType } from '../../components/Toast';
 
 interface ToastMessage {
   id: number;

@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
 import { TopNavBar } from '../components/TopNavBar';
-import { useGallery } from '../hooks/useGallery';
-import { useGalleryNavigation } from '../hooks/useGalleryNavigation';
-import { isImage, isVideo } from '../utils/fileTypes';
+import { useGallery } from '../../shared/hooks/useGallery';
+import { useGalleryNavigation } from '../../shared/hooks/useGalleryNavigation';
+import { isImage, isVideo } from '../../shared/utils/fileTypes';
 
 export function GalleryScreen() {
   const { t } = useTranslation();

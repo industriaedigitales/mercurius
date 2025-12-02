@@ -1,5 +1,5 @@
 import React from 'react';
-import desktopIcon from '../assets/desktopIcon.png';
+import desktopIcon from '../../shared/assets/desktopIcon.png';
 import { useTranslation } from 'react-i18next';
 
 interface TopNavBarProps {

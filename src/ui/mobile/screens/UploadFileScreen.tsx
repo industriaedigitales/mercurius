@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFileUpload } from '../hooks/useFileUpload';
+import { useFileUpload } from '../../shared/hooks/useFileUpload';
 
 export function UploadFileScreen() {
   const { t, i18n } = useTranslation();
@@ -65,7 +65,7 @@ export function UploadFileScreen() {
                 <p className="font-medium text-white">{files.length} file(s) selected</p>
                 <div className="flex flex-col gap-1 w-full max-h-32 overflow-y-auto mt-2">
                   {Array.from(files).map((file, index) => (
-                    <p key={index} className="text-xs text-text-medium truncate text-center">{file.name}</p>
+                    <p key={index} className="text-xs text-text-medium truncate text-center">{(file as File).name}</p>
                   ))}
                 </div>
               </div>
