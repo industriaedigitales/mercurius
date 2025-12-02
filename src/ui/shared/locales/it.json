@@ -41,7 +41,9 @@
     "newConnection": "Nuova Connessione",
     "deviceConnected": "Dispositivo '{{device}}' connesso.",
     "startServer": "Avvia Server",
-    "stopServer": "Ferma Server"
+    "stopServer": "Ferma Server",
+    "filesReceived": "Nuovi file ricevuti",
+    "filesUploaded": "{{count}} file caricati"
   },
   "upload": {
     "title": "Invia File",

@@ -10,6 +10,7 @@ interface ToastMessage {
   type: ToastType;
   title: string;
   message: string;
+  duration?: number;
 }
 
 export function MainScreen() {
@@ -25,16 +26,27 @@ export function MainScreen() {
     });
 
     // Subscribe to device connections
-    const unsubscribe = window.electron.subscribeDeviceConnected((deviceInfo) => {
+    const unsubscribeDevice = window.electron.subscribeDeviceConnected((deviceInfo) => {
       addToast({
         type: 'info',
         title: t('main.newConnection'),
-        message: t('main.deviceConnected', { device: deviceInfo.deviceName })
+        message: t('main.deviceConnected', { device: deviceInfo.deviceName }),
+        duration: 10000
+      });
+    });
+
+    const unsubscribeFile = window.electron.subscribeFileUploaded((uploadInfo) => {
+      addToast({
+        type: 'success',
+        title: t('main.filesReceived'),
+        message: t('main.filesUploaded', { count: uploadInfo.count }),
+        duration: 10000
       });
     });
 
     return () => {
-      unsubscribe();
+      unsubscribeDevice();
+      unsubscribeFile();
     };
   }, [t]);
 
@@ -118,6 +130,7 @@ export function MainScreen() {
             type={toast.type}
             title={toast.title}
             message={toast.message}
+            duration={toast.duration}
             onClose={() => removeToast(toast.id)}
           />
         ))}

@@ -61,6 +61,13 @@ function startWebServer() {
         allWindows.forEach(win => {
           win.webContents.send("deviceConnected", message.payload);
         });
+      } else if (message && message.type === "file-uploaded") {
+        // Forward to renderer
+        const allWindows = BrowserWindow.getAllWindows();
+        allWindows.forEach(win => {
+          win.webContents.send("fileUploaded", message.payload);
+          listFiles(win);
+        });
       }
     });
 

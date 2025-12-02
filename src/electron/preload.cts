@@ -16,6 +16,11 @@ electron.contextBridge.exposeInMainWorld("electron", {
       callback(deviceInfo);
     });
   },
+  subscribeFileUploaded: (callback) => {
+    return ipcOn("fileUploaded", (uploadInfo) => {
+      callback(uploadInfo);
+    });
+  },
 } satisfies Window["electron"]);
 
 function ipcInvoke<Key extends keyof EventPayloadMapping>(

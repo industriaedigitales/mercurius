@@ -135,6 +135,16 @@ app.post("/upload", async (c) => {
       }
     }
 
+    if (process.send && savedFiles.length > 0) {
+      process.send({
+        type: "file-uploaded",
+        payload: {
+          count: savedFiles.length,
+          files: savedFiles.map(f => f.name)
+        }
+      });
+    }
+
     if (isJson) {
       return c.json({ success: true, count: savedFiles.length });
     } else {

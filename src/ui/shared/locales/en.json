@@ -41,7 +41,9 @@
     "newConnection": "New Connection",
     "deviceConnected": "Device '{{device}}' connected.",
     "startServer": "Start Server",
-    "stopServer": "Stop Server"
+    "stopServer": "Stop Server",
+    "filesReceived": "New Files Received",
+    "filesUploaded": "{{count}} file(s) uploaded"
   },
   "upload": {
     "title": "Send Files",
