@@ -19,35 +19,36 @@ export function UploadFileScreen() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-background-dark text-text-light font-display flex flex-col items-center justify-center p-6 relative">
+    <div className="min-h-screen w-full bg-background-dark text-text-light font-display flex flex-col items-center justify-center p-6 relative marble-bg">
       {/* Language Switcher */}
-      <div className="absolute top-6 right-6 flex items-center bg-white/5 rounded-lg p-1 border border-white/10">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6 flex items-center bg-container-dark rounded-lg p-1 imperial-border">
         <button 
           onClick={() => changeLanguage('en')}
-          className={`px-3 py-1.5 rounded-md text-sm font-bold transition-colors ${i18n.language === 'en' ? 'bg-primary text-white' : 'text-white/60 hover:text-white'}`}
+          className={`px-3 py-1.5 rounded-md text-sm font-bold transition-colors ${i18n.language === 'en' ? 'bg-primary text-background-dark' : 'text-text-medium hover:text-text-light'}`}
         >
           EN
         </button>
         <button 
           onClick={() => changeLanguage('it')}
-          className={`px-3 py-1.5 rounded-md text-sm font-bold transition-colors ${i18n.language === 'it' ? 'bg-primary text-white' : 'text-white/60 hover:text-white'}`}
+          className={`px-3 py-1.5 rounded-md text-sm font-bold transition-colors ${i18n.language === 'it' ? 'bg-primary text-background-dark' : 'text-text-medium hover:text-text-light'}`}
         >
           IT
         </button>
       </div>
 
-      <div className="w-full max-w-md flex flex-col gap-8">
+      <div className="w-full max-w-md flex flex-col gap-8 bg-container-dark p-6 rounded-lg imperial-border shadow-2xl">
         <header className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/30">
             <span className="material-symbols-outlined text-4xl">cloud_upload</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Mercurius Upload</h1>
+          <h1 className="text-3xl font-bold text-gold-gradient font-imperial tracking-wider">Mercurius Upload</h1>
           <p className="mt-2 text-text-medium">{t('upload.title')}</p>
         </header>
 
         <form onSubmit={handleUpload} className="flex flex-col gap-6">
           <div 
-            className="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/20 bg-white/5 p-8 transition-colors hover:bg-white/10 cursor-pointer"
+            className="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-primary/30 bg-background-dark/50 p-8 transition-colors hover:bg-background-dark/80 cursor-pointer hover:border-primary/60"
             onClick={() => fileInputRef.current?.click()}
           >
             <input 
@@ -81,7 +82,7 @@ export function UploadFileScreen() {
           <button 
             type="submit" 
             disabled={!files || uploading}
-            className="flex h-14 w-full items-center justify-center rounded-xl bg-primary text-lg font-bold text-white transition-all hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+            className="flex h-14 w-full items-center justify-center rounded-xl bg-primary text-lg font-bold text-background-dark transition-all hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] shadow-lg shadow-primary/20"
           >
             {uploading ? (
               <span className="material-symbols-outlined animate-spin">progress_activity</span>
