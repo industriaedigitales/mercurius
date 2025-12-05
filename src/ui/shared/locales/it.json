@@ -12,7 +12,11 @@
     "previewNotAvailable": "Anteprima non disponibile",
     "filename": "Nome file",
     "noFiles": "Nessun file ricevuto ancora",
-    "allFiles": "Tutti i file"
+    "allFiles": "Tutti i file",
+    "actions": "Azioni",
+    "deleteSelected": "Elimina Selezionati",
+    "confirmDeleteTitle": "Eliminare i File?",
+    "confirmDeleteMessage": "Sei sicuro di voler eliminare {{count}} file selezionati? Questa azione non può essere annullata."
   },
   "sidebar": {
     "dashboard": "Dashboard",

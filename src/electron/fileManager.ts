@@ -1,5 +1,5 @@
 import { BrowserWindow } from "electron";
-import { readdirSync, statSync, createWriteStream, existsSync } from "fs";
+import { readdirSync, statSync, createWriteStream, existsSync, unlinkSync } from "fs";
 import { join } from "path";
 import { ipcWebContentSend } from "./utils.js";
 
@@ -30,10 +30,37 @@ export function listFiles(mainWindow: BrowserWindow): string[] {
     ipcWebContentSend("subscribeFileList", mainWindow.webContents, files);
     console.log(files);
     return files;
+// ... existing listFiles code ...
+    return files;
   } catch (error) {
     console.error("Errore durante la lettura della directory:", error);
     return [];
   }
+}
+
+export function deleteFiles(mainWindow: BrowserWindow, filenames: string[]): void {
+  const FILE_PATH = getUploadDirectory();
+  
+  if (!existsSync(FILE_PATH)) {
+    return;
+  }
+
+  filenames.forEach(filename => {
+    try {
+      const fullPath = join(FILE_PATH, filename);
+      if (existsSync(fullPath)) {
+        // fs.unlinkSync(fullPath); // Original synchronous
+        // Better to use async in real app but sync is fine here for simplicity/consistency with listFiles style
+        unlinkSync(fullPath);
+        console.log(`Deleted file: ${fullPath}`);
+      }
+    } catch (error) {
+      console.error(`Error deleting file ${filename}:`, error);
+    }
+  });
+
+  // Refresh the file list for the frontend
+  listFiles(mainWindow);
 }
 
 export function writeToFile(): void {

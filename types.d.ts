@@ -9,6 +9,7 @@ type EventPayloadMapping = {
   getFiles: MercuriusFiles;
   deviceConnected: { deviceName: string; deviceType: string; userAgent: string };
   fileUploaded: { count: number; files: string[] };
+  deleteFiles: void;
 };
 
 type UnsubscribeFunction = () => void;
@@ -23,6 +24,7 @@ interface Window {
     selectDirectory: () => Promise<string | null>;
     getUploadDirectory: () => Promise<string>;
     getFiles: () => Promise<MercuriusFiles>;
+    deleteFiles: (files: string[]) => Promise<void>;
     subscribeDeviceConnected: (
       callback: (deviceInfo: { deviceName: string; deviceType: string; userAgent: string }) => void
     ) => UnsubscribeFunction;

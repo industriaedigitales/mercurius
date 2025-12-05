@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { TopNavBar } from '../components/TopNavBar';
+import { ConfirmationModal } from '../components/ConfirmationModal';
 import { useGallery } from '../../shared/hooks/useGallery';
 import { useGalleryNavigation } from '../../shared/hooks/useGalleryNavigation';
 import { isImage, isVideo } from '../../shared/utils/fileTypes';
@@ -12,9 +13,30 @@ export function GalleryScreen() {
   const { files, serverIp } = useGallery();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { selectedIndex, fileStatuses, scrollToIndex } = useGalleryNavigation(files, scrollContainerRef);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleFileClick = (index: number) => {
     scrollToIndex(index);
+  };
+
+  const getRejectedFiles = () => {
+    return files.filter(file => fileStatuses[file] === 'reject');
+  };
+
+  const rejectedCount = getRejectedFiles().length;
+
+  const handleDeleteClick = () => {
+    if (rejectedCount > 0) {
+      setIsDeleteModalOpen(true);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    const rejectedFiles = getRejectedFiles();
+    if (rejectedFiles.length > 0) {
+      await window.electron.deleteFiles(rejectedFiles);
+    }
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -27,9 +49,9 @@ export function GalleryScreen() {
         </TopNavBar>
 
         <main className="flex-1 h-full pt-[60px] pb-5 px-10">
-          <div className="flex h-full w-full gap-8">
-            {/* Left Panel: Vertical Scroll Feed */}
-            <div className="w-2/3 h-full relative rounded-lg overflow-hidden bg-black/40">
+          <div className="flex h-full w-full gap-6">
+            {/* Left Panel: Vertical Scroll Feed (Preview) */}
+            <div className="w-[50%] h-full relative rounded-lg overflow-hidden bg-black/40">
               {files.length > 0 ? (
                 <div 
                   ref={scrollContainerRef}
@@ -81,8 +103,8 @@ export function GalleryScreen() {
               )}
             </div>
 
-            {/* Right Panel: File List */}
-            <div className="w-1/3 h-full flex flex-col bg-white/5 rounded-lg overflow-hidden">
+            {/* Middle Panel: File List */}
+            <div className="w-[25%] h-full flex flex-col bg-white/5 rounded-lg overflow-hidden">
               <div className="px-6 py-4 border-b border-white/10">
                 <h3 className="text-white text-base font-bold leading-tight">{t('common.allFiles')} ({files.length})</h3>
               </div>
@@ -121,9 +143,41 @@ export function GalleryScreen() {
                 </ul>
               </div>
             </div>
+
+            {/* Right Panel: Actions */}
+            <div className="w-[25%] h-full flex flex-col bg-white/5 rounded-lg overflow-hidden">
+               <div className="px-6 py-4 border-b border-white/10">
+                <h3 className="text-white text-base font-bold leading-tight">{t('common.actions')}</h3>
+              </div>
+              <div className="flex-1 p-4 flex flex-col gap-4">
+                <button
+                  onClick={handleDeleteClick}
+                  disabled={rejectedCount === 0}
+                  className={`flex items-center justify-center gap-2 p-3 rounded-lg font-bold transition-all border ${
+                    rejectedCount > 0 
+                      ? 'bg-red-500/10 border-red-500/50 text-red-500 hover:bg-red-500/20 shadow-lg shadow-red-500/10 cursor-pointer' 
+                      : 'bg-white/5 border-transparent text-white/30 cursor-not-allowed'
+                  }`}
+                >
+                  <span className="material-symbols-outlined">delete</span>
+                  <span>{t('common.deleteSelected')} ({rejectedCount})</span>
+                </button>
+              </div>
+            </div>
           </div>
         </main>
       </div>
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        title={t('common.confirmDeleteTitle')}
+        message={t('common.confirmDeleteMessage', { count: rejectedCount })}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        confirmLabel={t('common.delete')}
+        cancelLabel={t('common.cancel')}
+        isDestructive
+      />
     </div>
   );
 }

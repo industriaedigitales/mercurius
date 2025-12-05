@@ -2,7 +2,7 @@ import { app, BrowserWindow, Tray, dialog } from "electron";
 import path from "path";
 import { ipcHandle, isDev } from "./utils.js";
 import { getAssetPath, getPreloadPath, getUiPath } from "./pathResolver.js";
-import { listFiles, writeToFile } from "./fileManager.js";
+import { listFiles, writeToFile, deleteFiles } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
 import { getUploadDirectory, setUploadDirectory } from "./store.js";
 
@@ -150,6 +150,10 @@ app.on("ready", () => {
 
   ipcHandle("getFiles", () => {
     return listFiles(mainWindow);
+  });
+
+  ipcHandle("deleteFiles", (files: string[]) => {
+    deleteFiles(mainWindow, files);
   });
 
   ipcHandle("selectDirectory", async () => {

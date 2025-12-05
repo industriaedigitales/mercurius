@@ -12,7 +12,11 @@
     "previewNotAvailable": "Preview not available",
     "filename": "Filename",
     "noFiles": "No files received yet",
-    "allFiles": "All Files"
+    "allFiles": "All Files",
+    "actions": "Actions",
+    "deleteSelected": "Delete Selected",
+    "confirmDeleteTitle": "Delete Files?",
+    "confirmDeleteMessage": "Are you sure you want to delete {{count}} selected files? This action cannot be undone."
   },
   "sidebar": {
     "dashboard": "Dashboard",
