@@ -1,9 +1,27 @@
 import { ipcMain, WebContents, WebFrameMain } from "electron";
 import { getUiPath } from "./pathResolver.js";
 import { pathToFileURL } from "url";
+import os from "os";
 
 export function isDev(): boolean {
   return process.env.NODE_ENV === "development";
+}
+
+export function getLanIp() {
+  const interfaces = os.networkInterfaces();
+  for (const iface of Object.values(interfaces)) {
+    if (!iface) continue;
+    for (const { address, family } of iface) {
+      if (
+        family === "IPv4" &&
+        !address.startsWith("127.") &&
+        !address.startsWith("169.254")
+      ) {
+        return address;
+      }
+    }
+  }
+  return "N/A";
 }
 
 export function ipcHandle<Key extends keyof EventPayloadMapping>(

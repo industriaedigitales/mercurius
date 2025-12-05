@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
-
+import { UAParser } from "ua-parser-js";
 
 // --- Percorsi base ---
 const __filename = fileURLToPath(import.meta.url);
@@ -58,11 +58,6 @@ app.use("/uploads/*", serveStatic({
 }));
 
 // ✅ Route principale: serve mobile.html
-import { UAParser } from "ua-parser-js";
-
-// ... (existing imports)
-
-// ✅ Route principale: serve mobile.html
 app.get("/", async (c) => {
   // Detect device
   const userAgent = c.req.header("User-Agent");
@@ -105,7 +100,6 @@ app.get("/", async (c) => {
   }
 });
 
-// ✅ Gestione upload multiplo (POST /upload)
 // ✅ Gestione upload multiplo (POST /upload)
 app.post("/upload", async (c) => {
   try {

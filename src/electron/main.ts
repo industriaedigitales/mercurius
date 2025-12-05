@@ -1,31 +1,13 @@
-import { app, BrowserWindow, Tray, dialog } from "electron";
+import { app, BrowserWindow } from "electron";
 import path from "path";
-import { ipcHandle, isDev } from "./utils.js";
-import { getAssetPath, getPreloadPath, getUiPath } from "./pathResolver.js";
-import { listFiles, writeToFile, deleteFiles } from "./fileManager.js";
+import { isDev } from "./utils.js";
+import { getPreloadPath, getUiPath } from "./pathResolver.js";
+import { listFiles } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
-import { getUploadDirectory, setUploadDirectory } from "./store.js";
-
-import os from "os";
+import { getUploadDirectory } from "./store.js";
+import { setupIpcHandlers } from "./ipcHandlers.js";
 
 let webServerProcess: ChildProcess | null = null;
-
-function getLanIp() {
-  const interfaces = os.networkInterfaces();
-  for (const iface of Object.values(interfaces)) {
-    if (!iface) continue;
-    for (const { address, family } of iface) {
-      if (
-        family === "IPv4" &&
-        !address.startsWith("127.") &&
-        !address.startsWith("169.254")
-      ) {
-        return address;
-      }
-    }
-  }
-  return "N/A";
-}
 
 function startWebServer() {
   if (webServerProcess) {
@@ -104,6 +86,13 @@ function stopWebServer() {
   }
 }
 
+function restartWebServer() {
+  if (webServerProcess) {
+    stopWebServer();
+  }
+  startWebServer();
+}
+
 app.on("ready", () => {
   startWebServer();
   const mainWindow = new BrowserWindow({
@@ -130,60 +119,9 @@ app.on("ready", () => {
     setTimeout(() => listFiles(mainWindow), 1000);
   });
 
-
-
-  ipcHandle("getServerIp", () => {
-    return getLanIp();
+  setupIpcHandlers(mainWindow, {
+    start: startWebServer,
+    stop: stopWebServer,
+    restart: restartWebServer
   });
-
-  ipcHandle("toggleServer", (enable: boolean) => {
-    if (enable) {
-      startWebServer();
-    } else {
-      stopWebServer();
-    }
-  });
-
-  ipcHandle("getUploadDirectory", () => {
-    return getUploadDirectory();
-  });
-
-  ipcHandle("getFiles", () => {
-    return listFiles(mainWindow);
-  });
-
-  ipcHandle("deleteFiles", (files: string[]) => {
-    deleteFiles(mainWindow, files);
-  });
-
-  ipcHandle("selectDirectory", async () => {
-    const result = await dialog.showOpenDialog(mainWindow, {
-      properties: ["openDirectory"],
-    });
-
-    if (result.canceled || result.filePaths.length === 0) {
-      return null;
-    }
-
-    const newDir = result.filePaths[0];
-    setUploadDirectory(newDir);
-    
-    // Restart server if running to apply new directory
-    if (webServerProcess) {
-      stopWebServer();
-      startWebServer();
-    }
-
-    // Refresh file list for the new directory
-    listFiles(mainWindow);
-
-    return newDir;
-  });
-
-  /*   new Tray(
-    path.join(
-      getAssetPath(),
-      process.platform === "darwin" ? "tryIcoTemplate.png" : "trayIcon.png"
-    )
-  ); */
 });
