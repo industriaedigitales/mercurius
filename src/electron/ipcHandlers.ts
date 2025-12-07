@@ -1,4 +1,5 @@
 import { BrowserWindow, dialog } from "electron";
+import path from "path";
 import { ipcHandle, getLanIp } from "./utils.js";
 import { listFiles, deleteFiles } from "./fileManager.js";
 import { getUploadDirectory, setUploadDirectory } from "./store.js";
@@ -35,6 +36,22 @@ export function setupIpcHandlers(
 
   ipcHandle("deleteFiles", (files: string[]) => {
     deleteFiles(mainWindow, files);
+  });
+
+  ipcHandle("printFile", (file: string) => {
+    const printWindow = new BrowserWindow({ show: false });
+    // Use local file path for robustness
+    const fullPath = path.join(getUploadDirectory(), file);
+    const fileUrl = `file://${fullPath}`;
+    
+    printWindow.loadURL(fileUrl);
+
+    printWindow.webContents.on("did-finish-load", () => {
+      printWindow.webContents.print({}, (success, failureReason) => {
+        if (!success) console.log("Print failed:", failureReason);
+        printWindow.close();
+      });
+    });
   });
 
   ipcHandle("selectDirectory", async () => {

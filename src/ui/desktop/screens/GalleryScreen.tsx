@@ -6,7 +6,7 @@ import { TopNavBar } from '../components/TopNavBar';
 import { ConfirmationModal } from '../components/ConfirmationModal';
 import { useGallery } from '../../shared/hooks/useGallery';
 import { useGalleryNavigation } from '../../shared/hooks/useGalleryNavigation';
-import { isImage, isVideo } from '../../shared/utils/fileTypes';
+import { isImage, isVideo, isPdf } from '../../shared/utils/fileTypes';
 
 export function GalleryScreen() {
   const { t } = useTranslation();
@@ -38,6 +38,19 @@ export function GalleryScreen() {
     }
     setIsDeleteModalOpen(false);
   };
+  const handlePrintClick = async () => {
+    // If we have a selected index, print that one. otherwise print the first one or handle appropriately.
+    // The UI implies printing the *current* view or selected file.
+    // The hooks provide `selectedIndex` which corresponds to the current scroll file in the preview.
+    
+    if (files.length > 0 && selectedIndex >= 0 && selectedIndex < files.length) {
+      const file = files[selectedIndex];
+      await window.electron.printFile(file);
+    }
+  };
+
+  const selectedFile = (files.length > 0 && selectedIndex >= 0 && selectedIndex < files.length) ? files[selectedIndex] : null;
+  const isPrintable = selectedFile ? (isImage(selectedFile) || isPdf(selectedFile)) : false;
 
   return (
     <div className="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-hidden font-display">
@@ -161,6 +174,21 @@ export function GalleryScreen() {
                 >
                   <span className="material-symbols-outlined">delete</span>
                   <span>{t('common.deleteSelected')} ({rejectedCount})</span>
+                </button>
+
+                <div className="h-px bg-white/10 my-2"></div>
+                
+                <button
+                  onClick={handlePrintClick}
+                  disabled={!isPrintable}
+                  className={`flex items-center justify-center gap-2 p-3 rounded-lg font-bold transition-all border ${
+                    isPrintable
+                      ? 'bg-primary/10 border-primary/50 text-primary hover:bg-primary/20 shadow-lg shadow-primary/10 cursor-pointer' 
+                      : 'bg-white/5 border-transparent text-white/30 cursor-not-allowed'
+                  }`}
+                >
+                  <span className="material-symbols-outlined">print</span>
+                  <span>{t('common.print')}</span>
                 </button>
               </div>
             </div>

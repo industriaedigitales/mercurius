@@ -12,6 +12,7 @@ electron.contextBridge.exposeInMainWorld("electron", {
   getUploadDirectory: () => ipcInvoke("getUploadDirectory"),
   getFiles: () => ipcInvoke("getFiles"),
   deleteFiles: (files) => ipcInvoke("deleteFiles", files),
+  printFile: (file) => ipcInvoke("printFile", file),
   subscribeDeviceConnected: (callback) => {
     return ipcOn("deviceConnected", (deviceInfo) => {
       callback(deviceInfo);

@@ -1,5 +1,6 @@
 {
   "common": {
+    "print": "Print File",
     "appName": "Mercurius",
     "cancel": "Cancel",
     "save": "Save Changes",

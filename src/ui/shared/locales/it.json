@@ -1,5 +1,6 @@
 {
   "common": {
+    "print": "Stampa File",
     "appName": "Mercurius",
     "cancel": "Annulla",
     "save": "Salva Modifiche",
