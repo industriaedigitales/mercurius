@@ -1,4 +1,5 @@
-import { defineConfig } from "vite";
+/// <reference types="vitest" />
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -19,5 +20,8 @@ export default defineConfig({
     port: 5123,
     strictPort: true,
     host: true,
+  },
+  test: {
+    exclude: ["e2e/**", "node_modules/**"],
   },
 });
