@@ -111,80 +111,93 @@ export function MainScreen() {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center bg-background-dark group/design-root overflow-hidden p-4 marble-bg">
-      <div className="flex h-full w-full max-w-lg flex-col rounded-lg bg-container-dark shadow-2xl imperial-border my-8">
+    <div className="relative flex h-full w-full flex-col items-center justify-center bg-background-dark group/design-root overflow-hidden p-4 marble-bg my-16">
+      <div className="flex flex-col w-full max-w-4xl rounded-lg bg-container-dark shadow-2xl imperial-border my-8 overflow-hidden my-10">
         <TopNavBar />
         
-        <main className="flex flex-1 flex-col items-center justify-center gap-8 p-6 md:p-10">
-          <div className="text-center">
-            <h1 className="text-gold-gradient tracking-light text-[32px] font-bold leading-tight">{t('main.scanQr')}</h1>
-            <p className="text-text-medium text-base font-normal leading-normal pt-2">{t('main.openBrowser')}</p>
-          </div>
+        <main className="flex flex-1 flex-col md:flex-row items-center md:items-stretch justify-center gap-8 p-6 md:p-10">
           
-          <div className="flex w-full max-w-64 grow-0 bg-container-dark @container">
-            <div className="w-full gap-1 overflow-hidden rounded-lg bg-white p-4 @[480px]:gap-2 flex items-center justify-center imperial-border">
-              {serverIp ? (
-                 <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
-                  <QRCode
-                    size={256}
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                    value={isPublic && tunnelUrl ? tunnelUrl : `http://${serverIp}:3000`}
-                    viewBox={`0 0 256 256`}
-                  />
-                </div>
-              ) : (
-                <div className="aspect-square w-full bg-gray-200 animate-pulse"></div>
-              )}
+          {/* Left Column - QR Code */}
+          <div className="flex flex-1 flex-col items-center justify-center gap-6">
+            <div className="text-center">
+              <h1 className="text-gold-gradient tracking-light text-[32px] font-bold leading-tight">{t('main.scanQr')}</h1>
+              <p className="text-text-medium text-base font-normal leading-normal pt-2 max-w-xs mx-auto">{t('main.openBrowser')}</p>
+            </div>
+            
+            <div className="flex w-full max-w-64 grow-0 bg-container-dark @container">
+              <div className="w-full gap-1 overflow-hidden rounded-lg bg-white p-4 @[480px]:gap-2 flex items-center justify-center imperial-border">
+                {serverIp ? (
+                   <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
+                    <QRCode
+                      size={256}
+                      style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                      value={isPublic && tunnelUrl ? tunnelUrl : `http://${serverIp}:3000`}
+                      viewBox={`0 0 256 256`}
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-square w-full bg-gray-200 animate-pulse"></div>
+                )}
+              </div>
             </div>
           </div>
+
+          <div className="w-px bg-white/10 hidden md:block"></div>
           
-          <div className="w-full max-w-md p-4 @container">
-            <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border">
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <p className="text-base font-bold leading-tight text-text-light">{serverEnabled ? t('main.serverRunning') : t('main.serverStopped')}</p>
-                  <p className="text-sm font-normal leading-normal text-text-medium">{t('main.readyToReceive')}</p>
+          {/* Right Column - Controls */}
+          <div className="flex flex-1 flex-col justify-center items-center w-full max-w-md gap-6">
+            <div className="w-full @container flex flex-col gap-4">
+              
+              {/* Server Control */}
+              <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border">
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-base font-bold leading-tight text-text-light">{serverEnabled ? t('main.serverRunning') : t('main.serverStopped')}</p>
+                    <p className="text-sm font-normal leading-normal text-text-medium">{t('main.readyToReceive')}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className={`h-2.5 w-2.5 rounded-full ${serverEnabled ? 'bg-accent-green' : 'bg-red-500'}`}></div>
+                  <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-accent-green has-[:not(:checked)]:bg-white/10">
+                    <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
+                    <input 
+                      checked={serverEnabled} 
+                      onChange={(e) => handleToggleServer(e.target.checked)} 
+                      className="invisible absolute" 
+                      type="checkbox"
+                    />
+                  </label>
                 </div>
               </div>
-            <div className="flex items-center gap-3">
-                <div className={`h-2.5 w-2.5 rounded-full ${serverEnabled ? 'bg-accent-green' : 'bg-red-500'}`}></div>
-                <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-accent-green has-[:not(:checked)]:bg-white/10">
-                  <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
-                  <input 
-                    checked={serverEnabled} 
-                    onChange={(e) => handleToggleServer(e.target.checked)} 
-                    className="invisible absolute" 
-                    type="checkbox"
-                  />
-                </label>
+
+              {/* Public Mode Control */}
+              <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border">
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-base font-bold leading-tight text-text-light">{isPublic ? t('main.publicModeOn') : t('main.publicModeOff')}</p>
+                    <p className="text-sm font-normal leading-normal text-text-medium">{t('main.publicModeDesc')}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                   <div className={`h-2.5 w-2.5 rounded-full ${isPublic ? 'bg-accent-green' : 'bg-red-500'}`}></div>
+                  <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-orange-500 has-[:not(:checked)]:bg-white/10">
+                    <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
+                    <input 
+                      checked={isPublic} 
+                      onChange={(e) => handleTogglePublic(e.target.checked)} 
+                      className="invisible absolute" 
+                      type="checkbox"
+                    />
+                  </label>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border mt-4">
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <p className="text-base font-bold leading-tight text-text-light">{isPublic ? t('main.publicModeOn') : t('main.publicModeOff')}</p>
-                  <p className="text-sm font-normal leading-normal text-text-medium">{t('main.publicModeDesc')}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                 <div className={`h-2.5 w-2.5 rounded-full ${isPublic ? 'bg-orange-500' : 'bg-gray-500'}`}></div>
-                <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-orange-500 has-[:not(:checked)]:bg-white/10">
-                  <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
-                  <input 
-                    checked={isPublic} 
-                    onChange={(e) => handleTogglePublic(e.target.checked)} 
-                    className="invisible absolute" 
-                    type="checkbox"
-                  />
-                </label>
-              </div>
-            </div>
-
+            {/* Password Display */}
             {isPublic && publicIp && (
-              <div className="mt-4 flex w-full flex-col items-center justify-center rounded-lg border border-white/10 bg-container-dark p-4 imperial-border">
+              <div className="w-full flex flex-col items-center justify-center rounded-lg border border-white/10 bg-container-dark p-4 imperial-border">
                 <p className="text-sm font-bold text-text-light uppercase tracking-wider">{t('main.tunnelPassword')}</p>
-                <div className="mt-2 flex items-center gap-2 rounded bg-black/30 px-4 py-2">
+                <div className="mt-2 flex items-center gap-2 rounded bg-black/30 px-4 py-2 w-full justify-center">
                    <p className="text-xl font-mono text-gold-gradient tracking-widest">{publicIp}</p>
                    <button 
                     onClick={() => { navigator.clipboard.writeText(publicIp); addToast({type: 'info', title: 'Copied', message: 'Password copied to clipboard'})}}
