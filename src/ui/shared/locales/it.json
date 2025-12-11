@@ -48,7 +48,15 @@
     "startServer": "Avvia Server",
     "stopServer": "Ferma Server",
     "filesReceived": "Nuovi file ricevuti",
-    "filesUploaded": "{{count}} file caricati"
+    "filesUploaded": "{{count}} file caricati",
+    "publicModeOn": "Modalità Pubblica Attiva",
+    "publicModeOff": "Modalità Pubblica Inattiva",
+    "publicModeDesc": "Consenti a dispositivi su altre reti di caricare file tramite un URL pubblico.",
+    "publicModeEnabled": "Modalità Pubblica Abilitata",
+    "publicUrlGenerated": "È stato generato un URL pubblico. Chiunque abbia il link può caricare file.",
+    "tunnelError": "Impossibile stabilire il tunnel pubblico.",
+    "tunnelPassword": "Password",
+    "tunnelPasswordDesc": "Inserisci questo indirizzo IP se richiesto come password per accedere all'URL pubblico."
   },
   "upload": {
     "title": "Invia File",

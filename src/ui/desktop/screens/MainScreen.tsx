@@ -18,11 +18,22 @@ export function MainScreen() {
   const [serverEnabled, setServerEnabled] = useState(true);
   const [serverIp, setServerIp] = useState<string>("");
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [isPublic, setIsPublic] = useState(false);
+  const [tunnelUrl, setTunnelUrl] = useState<string | null>(null);
+  const [publicIp, setPublicIp] = useState<string | null>(null);
 
   useEffect(() => {
     // Get initial IP
     window.electron.getServerIp().then((ip) => {
       setServerIp(ip);
+    });
+    
+    // Check if tunnel is already running
+    window.electron.getTunnelUrl().then((url) => {
+      if (url) {
+        setTunnelUrl(url);
+        setIsPublic(true);
+      }
     });
 
     // Subscribe to device connections
@@ -64,6 +75,41 @@ export function MainScreen() {
     await window.electron.toggleServer(checked);
   };
 
+  const handleTogglePublic = async (checked: boolean) => {
+    setIsPublic(checked);
+    if (checked) {
+       try {
+         const [url, ip] = await Promise.all([
+           window.electron.startTunnel(),
+           window.electron.getPublicIp() // Fetch IP in parallel
+         ]);
+         
+         if (url) {
+           setTunnelUrl(url);
+           setPublicIp(ip);
+           addToast({
+             type: 'success',
+             title: t('main.publicModeEnabled'),
+             message: t('main.publicUrlGenerated'),
+             duration: 5000
+           });
+         }
+       } catch (error) {
+         console.error("Failed to start tunnel", error);
+         setIsPublic(false);
+         addToast({
+            type: 'error',
+            title: t('common.error'),
+            message: t('main.tunnelError'),
+            duration: 5000
+         });
+       }
+    } else {
+      await window.electron.stopTunnel();
+      setTunnelUrl(null);
+    }
+  };
+
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center bg-background-dark group/design-root overflow-hidden p-4 marble-bg">
       <div className="flex h-full w-full max-w-lg flex-col rounded-lg bg-container-dark shadow-2xl imperial-border my-8">
@@ -82,7 +128,7 @@ export function MainScreen() {
                   <QRCode
                     size={256}
                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                    value={`http://${serverIp}:3000`}
+                    value={isPublic && tunnelUrl ? tunnelUrl : `http://${serverIp}:3000`}
                     viewBox={`0 0 256 256`}
                   />
                 </div>
@@ -100,7 +146,7 @@ export function MainScreen() {
                   <p className="text-sm font-normal leading-normal text-text-medium">{t('main.readyToReceive')}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
                 <div className={`h-2.5 w-2.5 rounded-full ${serverEnabled ? 'bg-accent-green' : 'bg-red-500'}`}></div>
                 <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-accent-green has-[:not(:checked)]:bg-white/10">
                   <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
@@ -113,6 +159,43 @@ export function MainScreen() {
                 </label>
               </div>
             </div>
+
+            <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border mt-4">
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col gap-1">
+                  <p className="text-base font-bold leading-tight text-text-light">{isPublic ? t('main.publicModeOn') : t('main.publicModeOff')}</p>
+                  <p className="text-sm font-normal leading-normal text-text-medium">{t('main.publicModeDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                 <div className={`h-2.5 w-2.5 rounded-full ${isPublic ? 'bg-orange-500' : 'bg-gray-500'}`}></div>
+                <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-orange-500 has-[:not(:checked)]:bg-white/10">
+                  <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
+                  <input 
+                    checked={isPublic} 
+                    onChange={(e) => handleTogglePublic(e.target.checked)} 
+                    className="invisible absolute" 
+                    type="checkbox"
+                  />
+                </label>
+              </div>
+            </div>
+
+            {isPublic && publicIp && (
+              <div className="mt-4 flex w-full flex-col items-center justify-center rounded-lg border border-white/10 bg-container-dark p-4 imperial-border">
+                <p className="text-sm font-bold text-text-light uppercase tracking-wider">{t('main.tunnelPassword')}</p>
+                <div className="mt-2 flex items-center gap-2 rounded bg-black/30 px-4 py-2">
+                   <p className="text-xl font-mono text-gold-gradient tracking-widest">{publicIp}</p>
+                   <button 
+                    onClick={() => { navigator.clipboard.writeText(publicIp); addToast({type: 'info', title: 'Copied', message: 'Password copied to clipboard'})}}
+                    className="ml-2 text-text-medium hover:text-white"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                   </button>
+                </div>
+                <p className="mt-2 text-center text-xs text-text-medium max-w-xs">{t('main.tunnelPasswordDesc')}</p>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-4">

@@ -48,7 +48,15 @@
     "startServer": "Start Server",
     "stopServer": "Stop Server",
     "filesReceived": "New Files Received",
-    "filesUploaded": "{{count}} file(s) uploaded"
+    "filesUploaded": "{{count}} file(s) uploaded",
+    "publicModeOn": "Public Mode Active",
+    "publicModeOff": "Public Mode Inactive",
+    "publicModeDesc": "Allow devices on other networks to upload files via a public URL.",
+    "publicModeEnabled": "Public Mode Enabled",
+    "publicUrlGenerated": "A public URL has been generated. Anyone with the link can upload files.",
+    "tunnelError": "Failed to establish public tunnel.",
+    "tunnelPassword": "Password",
+    "tunnelPasswordDesc": "Enter this IP address if asked for a password to access the public URL."
   },
   "upload": {
     "title": "Send Files",

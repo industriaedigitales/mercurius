@@ -11,6 +11,10 @@ type EventPayloadMapping = {
   fileUploaded: { count: number; files: string[] };
   deleteFiles: void;
   printFile: void;
+  startTunnel: string | null;
+  stopTunnel: void;
+  getTunnelUrl: string | null;
+  getPublicIp: string | null;
 };
 
 type UnsubscribeFunction = () => void;
@@ -27,6 +31,10 @@ interface Window {
     getFiles: () => Promise<MercuriusFiles>;
     deleteFiles: (files: string[]) => Promise<void>;
     printFile: (file: string) => Promise<void>;
+    startTunnel: () => Promise<string | null>;
+    stopTunnel: () => Promise<void>;
+    getTunnelUrl: () => Promise<string | null>;
+    getPublicIp: () => Promise<string | null>;
     subscribeDeviceConnected: (
       callback: (deviceInfo: { deviceName: string; deviceType: string; userAgent: string }) => void
     ) => UnsubscribeFunction;

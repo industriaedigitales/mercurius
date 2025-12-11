@@ -8,6 +8,9 @@ type ServerFunctions = {
   start: () => void;
   stop: () => void;
   restart: () => void;
+  startTunnel: () => Promise<string | null>;
+  stopTunnel: () => void;
+  getTunnelUrl: () => string | null;
 };
 
 export function setupIpcHandlers(
@@ -36,6 +39,29 @@ export function setupIpcHandlers(
 
   ipcHandle("deleteFiles", (files: string[]) => {
     deleteFiles(mainWindow, files);
+  });
+
+  ipcHandle("startTunnel", async () => {
+    return await server.startTunnel();
+  });
+
+  ipcHandle("stopTunnel", () => {
+    server.stopTunnel();
+  });
+
+  ipcHandle("getTunnelUrl", () => {
+    return server.getTunnelUrl();
+  });
+
+  ipcHandle("getPublicIp", async () => {
+    try {
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.error("Failed to fetch public IP:", error);
+      return null;
+    }
   });
 
   ipcHandle("printFile", (file: string) => {

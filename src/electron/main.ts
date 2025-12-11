@@ -6,8 +6,13 @@ import { listFiles } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
 import { getUploadDirectory } from "./store.js";
 import { setupIpcHandlers } from "./ipcHandlers.js";
+// @ts-ignore
+import localtunnel from "localtunnel";
 
 let webServerProcess: ChildProcess | null = null;
+let tunnel: any = null;
+let tunnelUrl: string | null = null;
+
 
 function startWebServer() {
   if (webServerProcess) {
@@ -84,6 +89,42 @@ function stopWebServer() {
   } else {
     console.log("No web server to stop.");
   }
+  stopTunnel();
+}
+
+async function startTunnel() {
+  if (tunnel) return tunnelUrl;
+  
+  try {
+    console.log("Starting localtunnel...");
+    tunnel = await localtunnel({ port: 3000 });
+    tunnelUrl = tunnel.url;
+    console.log("Tunnel started at:", tunnelUrl);
+    
+    tunnel.on("close", () => {
+      console.log("Tunnel closed");
+      tunnel = null;
+      tunnelUrl = null;
+    });
+
+    return tunnelUrl;
+  } catch (err) {
+    console.error("Failed to start tunnel:", err);
+    throw err;
+  }
+}
+
+function stopTunnel() {
+  if (tunnel) {
+    console.log("Stopping tunnel...");
+    tunnel.close();
+    tunnel = null;
+    tunnelUrl = null;
+  }
+}
+
+function getTunnelUrl() {
+  return tunnelUrl;
 }
 
 function restartWebServer() {
@@ -122,6 +163,9 @@ app.on("ready", () => {
   setupIpcHandlers(mainWindow, {
     start: startWebServer,
     stop: stopWebServer,
-    restart: restartWebServer
+    restart: restartWebServer,
+    startTunnel,
+    stopTunnel,
+    getTunnelUrl
   });
 });
