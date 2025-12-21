@@ -1,59 +1,59 @@
 @import "tailwindcss";
 
+@import "tailwindcss";
+
 @theme {
-  --color-primary: #C5A059;
-  --color-background-light: #f6f6f8;
-  --color-background-dark: #0F1115;
-  --color-accent-green: #27AE60;
-  --color-accent-blue: #9E2A2B;
-  --color-container-dark: #181B21;
-  --color-text-light: #E5E5E5;
-  --color-text-medium: #888888;
+  --color-primary: #3B82F6;
+  --color-primary-light: #60A5FA;
+  --color-accent: #06B6D4;
+  --color-background-dark: #09090B;
+  --color-container-dark: rgba(255, 255, 255, 0.03);
+  --color-text-light: #F4F4F5;
+  --color-text-medium: #A1A1AA;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
 
-  --font-display: "Spline Sans", sans-serif;
-  --font-imperial: "Cinzel", serif;
-
-  --radius-lg: 1.25rem;
-  --radius-xl: 2rem;
+  --font-display: "Inter", system-ui, sans-serif;
+  
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
-.imperial-border {
-  border: 1px solid var(--color-primary);
-  box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+.glass-panel {
+  background: var(--color-container-dark);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-.marble-bg {
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-  position: relative;
+.glass-border {
+  border: 1px solid var(--color-glass-border);
 }
 
-.marble-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.3;
-  pointer-events: none;
+.tech-grid-bg {
+  background-color: var(--color-background-dark);
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-.text-gold-gradient {
-  background: linear-gradient(to bottom, #F4E2B8 0%, #C5A059 50%, #8D6E33 100%);
+.text-accent-gradient {
+  background: linear-gradient(to right, #3B82F6, #06B6D4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--font-imperial);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
 }
 
 body {
@@ -63,4 +63,6 @@ body {
   font-family: var(--font-display);
   background-color: var(--color-background-dark);
   color: var(--color-text-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

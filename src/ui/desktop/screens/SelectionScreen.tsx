@@ -30,15 +30,15 @@ export function SelectionScreen() {
   ];
 
   return (
-    <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center bg-background-dark overflow-hidden p-4 marble-bg">
+    <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center bg-background-dark overflow-hidden p-4 tech-grid-bg">
       <TopNavBar />
       
       <main className="flex flex-1 flex-col items-center justify-center w-full max-w-6xl gap-12 pt-20">
-        <div className="text-center space-y-4">
-          <h1 className="text-gold-gradient text-4xl md:text-5xl font-bold tracking-[0.2em]">
+        <div className="text-center space-y-2">
+          <h1 className="text-accent-gradient text-4xl md:text-6xl font-bold tracking-tight">
             {t('common.appName')}
           </h1>
-          <p className="text-text-medium text-lg max-w-2xl mx-auto uppercase tracking-widest text-sm opacity-80">
+          <p className="text-text-medium text-lg max-w-2xl mx-auto font-medium tracking-tight opacity-90">
             {t('home.subtitle')}
           </p>
         </div>

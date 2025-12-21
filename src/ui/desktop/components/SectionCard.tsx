@@ -18,26 +18,26 @@ export function SectionCard({ title, description, icon, onClick, disabled = fals
   };
 
   // Base styles for the card
-  const baseClasses = "relative flex flex-col items-center justify-center p-8 rounded-xl border transition-all duration-300 group imperial-border";
+  const baseClasses = "relative flex flex-col items-center justify-center p-8 rounded-xl transition-all duration-300 group glass-panel";
   
   // Interactive vs Disabled styles
   const stateClasses = disabled 
-    ? "border-white/5 bg-white/5 cursor-not-allowed grayscale" 
-    : "border-primary/30 bg-container-dark hover:border-primary hover:shadow-2xl hover:shadow-primary/20 cursor-pointer active:scale-95";
+    ? "opacity-40 cursor-not-allowed grayscale" 
+    : "hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] cursor-pointer active:scale-95";
 
   // Icon container styles
-  const iconContainerClasses = `mb-4 p-4 rounded-full transition-colors ${
+  const iconContainerClasses = `mb-4 p-4 rounded-xl transition-colors ${
     disabled ? "bg-white/5" : "bg-primary/10 group-hover:bg-primary/20"
   }`;
 
   // Icon styles
-  const iconClasses = `material-symbols-outlined text-4xl ${
+  const iconClasses = `material-symbols-outlined text-4xl transform group-hover:scale-110 transition-transform ${
     disabled ? "text-text-medium" : "text-primary"
   }`;
 
   // Title styles
-  const titleClasses = `text-xl font-bold mb-2 tracking-widest ${
-    disabled ? "text-text-medium" : "text-gold-gradient"
+  const titleClasses = `text-xl font-bold mb-2 tracking-tight ${
+    disabled ? "text-text-medium" : "text-accent-gradient"
   }`;
 
   return (
@@ -62,7 +62,7 @@ export function SectionCard({ title, description, icon, onClick, disabled = fals
       )}
 
       {disabled && (
-        <div className="absolute top-4 right-4 bg-primary px-2 py-0.5 rounded text-[10px] font-bold text-background-dark uppercase tracking-tighter">
+        <div className="absolute top-4 right-4 bg-primary/20 border border-primary/50 px-2 py-0.5 rounded text-[10px] font-semibold text-primary-light uppercase tracking-wider">
           {t('home.comingSoon')}
         </div>
       )}

@@ -20,61 +20,61 @@ export function SettingsScreen() {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col bg-background-light dark:bg-background-dark font-display">
+    <div className="flex h-screen w-full flex-col bg-background-dark tech-grid-bg font-display overflow-hidden">
       <TopNavBar>
-        <Link to="/" className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-white/10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-10 px-2.5 hover:bg-white/20 transition-colors">
+        <Link to="/" className="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-white/5 text-white hover:bg-white/10 border border-white/10 transition-all active:scale-95 no-drag">
           <span className="material-symbols-outlined text-white text-xl">close</span>
         </Link>
       </TopNavBar>
-      <div className="flex flex-1 overflow-hidden pt-[60px]">
+      <div className="flex flex-1 overflow-hidden pt-[72px]">
         <SideNavBar />
-        <main className="flex-1 overflow-y-auto p-8">
+        <main className="flex-1 overflow-y-auto p-12">
         <div className="mx-auto max-w-3xl">
-          <header className="mb-10 flex flex-col items-start gap-2">
-            <h1 className="text-4xl font-black tracking-[-0.033em] text-black dark:text-white">{t('settings.title')}</h1>
-            <p className="text-base font-normal text-black/60 dark:text-white/60">{t('settings.subtitle')}</p>
+          <header className="mb-12 flex flex-col items-start gap-3">
+            <h1 className="text-5xl font-black tracking-tight text-accent-gradient">{t('settings.title')}</h1>
+            <p className="text-lg font-medium text-text-medium opacity-80">{t('settings.subtitle')}</p>
           </header>
           
-          <div className="flex flex-col gap-8">
-            <section>
-              <div className="pt-6">
-                <div className="flex flex-wrap items-end gap-4">
+          <div className="flex flex-col gap-10">
+            <section className="glass-panel p-8 rounded-xl">
+              <div className="">
+                <div className="flex flex-wrap items-end gap-5">
                   <label className="flex flex-1 flex-col min-w-80">
-                    <p className="pb-2 text-base font-medium text-black dark:text-white text-left">{t('settings.defaultSaveLocation')}</p>
-                    <div className="flex w-full flex-1 items-stretch">
+                    <p className="pb-3 text-sm font-black uppercase tracking-widest text-text-medium opacity-60 text-left">{t('settings.defaultSaveLocation')}</p>
+                    <div className="flex w-full flex-1 items-stretch group">
                       <input 
-                        className="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l border border-black/20 bg-black/5 p-4 text-base font-normal text-black placeholder:text-black/50 focus:border-primary focus:outline-0 focus:ring-0 dark:border-white/20 dark:bg-white/5 dark:text-white dark:placeholder:text-white/50" 
+                        className="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-xl glass-border bg-white/5 p-4 text-base font-bold text-white placeholder:text-white/20 focus:border-primary focus:outline-0 focus:ring-0 group-hover:bg-white/10 transition-colors" 
                         readOnly 
                         value={uploadDirectory}
                       />
-                      <div className="flex items-center justify-center border border-l-0 border-black/20 bg-black/5 px-2 dark:border-white/20 dark:bg-white/5">
-                        <span className="material-symbols-outlined text-black/60 dark:text-white/60">folder</span>
+                      <div className="flex items-center justify-center border-y border-r glass-border bg-white/5 px-4 rounded-r-xl group-hover:bg-white/10 transition-colors">
+                        <span className="material-symbols-outlined text-text-medium opacity-60">folder</span>
                       </div>
                     </div>
                   </label>
                   <button 
                     onClick={handleBrowse}
-                    className="rounded bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed cursor-pointer disabled:opacity-50"
+                    className="rounded-xl bg-primary px-8 h-14 text-sm font-black uppercase tracking-widest text-white hover:bg-primary-light transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] active:scale-95 disabled:cursor-not-allowed cursor-pointer disabled:opacity-50"
                   >
                     {t('common.browse')}
                   </button>
                 </div>
-                <p className="pt-2 text-left text-sm font-normal text-black/60 dark:text-white/60">{t('settings.saveLocationHelp')}</p>
+                <p className="pt-3 text-left text-xs font-medium text-text-medium opacity-60">{t('settings.saveLocationHelp')}</p>
               </div>
             </section>
 
             {/* Language Section */}
-            <section>
-              <p className="pb-4 text-base font-medium text-black dark:text-white text-left">{t('settings.selectLanguage')}</p>
+            <section className="glass-panel p-8 rounded-xl">
+              <p className="pb-4 text-sm font-black uppercase tracking-widest text-text-medium opacity-60 text-left">{t('settings.selectLanguage')}</p>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <select
                     value={i18n.language}
                     onChange={(e) => i18n.changeLanguage(e.target.value)}
-                    className="flex h-14 w-full max-w-[480px] items-center rounded-md border border-black/10 bg-white px-3 text-base font-medium text-black focus:border-primary focus:outline-none dark:border-white/10 dark:bg-white/5 dark:text-white"
+                    className="flex h-14 w-full max-w-[480px] items-center rounded-xl glass-border bg-white/5 px-4 text-base font-bold text-white focus:border-primary focus:outline-none hover:bg-white/10 transition-colors cursor-pointer"
                   >
-                    <option value="en">{t('settings.english')}</option>
-                    <option value="it">{t('settings.italian')}</option>
+                    <option value="en" className="bg-background-dark">{t('settings.english')}</option>
+                    <option value="it" className="bg-background-dark">{t('settings.italian')}</option>
                   </select>
                 </div>
               </div>

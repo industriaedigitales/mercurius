@@ -111,21 +111,21 @@ export function MediaScreen() {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center bg-background-dark group/design-root overflow-hidden p-4 marble-bg my-16">
-      <div className="flex flex-col w-full max-w-4xl rounded-lg bg-container-dark shadow-2xl imperial-border my-8 overflow-hidden my-10">
+    <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center bg-background-dark group/design-root overflow-hidden p-4 tech-grid-bg py-16">
+      <div className="flex flex-col w-full max-w-4xl rounded-xl glass-panel shadow-2xl my-8 overflow-hidden">
         <TopNavBar />
         
-        <main className="flex flex-1 flex-col md:flex-row items-center md:items-stretch justify-center gap-8 p-6 md:p-10">
+        <main className="flex flex-1 flex-col md:flex-row items-center md:items-stretch justify-center gap-8 p-6 md:p-10 mt-10">
           
           {/* Left Column - QR Code */}
-          <div className="flex flex-1 flex-col items-center justify-center gap-6">
+          <div className="flex flex-1 flex-col items-center justify-center gap-6 ">
             <div className="text-center">
-              <h1 className="text-gold-gradient tracking-light text-[32px] font-bold leading-tight">{t('main.scanQr')}</h1>
-              <p className="text-text-medium text-base font-normal leading-normal pt-2 max-w-xs mx-auto">{t('main.openBrowser')}</p>
+              <h1 className="text-accent-gradient tracking-tight text-[32px] font-bold leading-tight">{t('main.scanQr')}</h1>
+              <p className="text-text-medium text-base font-medium leading-normal pt-2 max-w-xs mx-auto">{t('main.openBrowser')}</p>
             </div>
             
-            <div className="flex w-full max-w-64 grow-0 bg-container-dark @container">
-              <div className="w-full gap-1 overflow-hidden rounded-lg bg-white p-4 @[480px]:gap-2 flex items-center justify-center imperial-border">
+            <div className="flex w-full max-w-64 grow-0 bg-transparent @container">
+              <div className="w-full gap-1 overflow-hidden rounded-xl bg-white p-6 @[480px]:gap-2 flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.1)]">
                 {serverIp ? (
                    <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
                     <QRCode
@@ -136,30 +136,30 @@ export function MediaScreen() {
                     />
                   </div>
                 ) : (
-                  <div className="aspect-square w-full bg-gray-200 animate-pulse"></div>
+                  <div className="aspect-square w-full bg-gray-200 animate-pulse rounded-lg"></div>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="w-px bg-white/10 hidden md:block"></div>
+          <div className="w-px bg-white/5 hidden md:block"></div>
           
           {/* Right Column - Controls */}
           <div className="flex flex-1 flex-col justify-center items-center w-full max-w-md gap-6">
             <div className="w-full @container flex flex-col gap-4">
               
               {/* Server Control */}
-              <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border">
+              <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-xl glass-border bg-white/5 p-5 @[480px]:flex-row shadow-sm hover:bg-white/10 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-bold leading-tight text-text-light">{serverEnabled ? t('main.serverRunning') : t('main.serverStopped')}</p>
-                    <p className="text-sm font-normal leading-normal text-text-medium">{t('main.readyToReceive')}</p>
+                    <p className="text-sm font-medium leading-normal text-text-medium">{t('main.readyToReceive')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className={`h-2.5 w-2.5 rounded-full ${serverEnabled ? 'bg-accent-green' : 'bg-red-500'}`}></div>
-                  <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-accent-green has-[:not(:checked)]:bg-white/10">
-                    <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
+                  <div className={`h-2 w-2 rounded-full shadow-[0_0_8px] ${serverEnabled ? 'bg-accent shadow-accent/50' : 'bg-red-500 shadow-red-500/50'}`}></div>
+                  <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent p-0.5 has-[:checked]:justify-end has-[:checked]:bg-accent has-[:not(:checked)]:bg-white/10 transition-colors">
+                    <div className="h-full w-[27px] rounded-full bg-white transition-transform shadow-lg"></div>
                     <input 
                       checked={serverEnabled} 
                       onChange={(e) => handleToggleServer(e.target.checked)} 
@@ -171,17 +171,17 @@ export function MediaScreen() {
               </div>
 
               {/* Public Mode Control */}
-              <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-lg border border-white/10 bg-container-dark p-5 @[480px]:flex-row imperial-border">
+              <div className="flex flex-1 flex-col items-center justify-between gap-4 rounded-xl glass-border bg-white/5 p-5 @[480px]:flex-row shadow-sm hover:bg-white/10 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-bold leading-tight text-text-light">{isPublic ? t('main.publicModeOn') : t('main.publicModeOff')}</p>
-                    <p className="text-sm font-normal leading-normal text-text-medium">{t('main.publicModeDesc')}</p>
+                    <p className="text-sm font-medium leading-normal text-text-medium">{t('main.publicModeDesc')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                   <div className={`h-2.5 w-2.5 rounded-full ${isPublic ? 'bg-accent-green' : 'bg-red-500'}`}></div>
-                  <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent-green p-0.5 has-[:checked]:justify-end has-[:checked]:bg-orange-500 has-[:not(:checked)]:bg-white/10">
-                    <div className="h-full w-[27px] rounded-full bg-white transition-transform" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px' }}></div>
+                   <div className={`h-2 w-2 rounded-full shadow-[0_0_8px] ${isPublic ? 'bg-accent shadow-accent/50' : 'bg-red-500 shadow-red-500/50'}`}></div>
+                  <label className="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-accent p-0.5 has-[:checked]:justify-end has-[:checked]:bg-cyan-500 has-[:not(:checked)]:bg-white/10 transition-colors">
+                    <div className="h-full w-[27px] rounded-full bg-white transition-transform shadow-lg"></div>
                     <input 
                       checked={isPublic} 
                       onChange={(e) => handleTogglePublic(e.target.checked)} 
@@ -195,25 +195,25 @@ export function MediaScreen() {
 
             {/* Password Display */}
             {isPublic && publicIp && (
-              <div className="w-full flex flex-col items-center justify-center rounded-lg border border-white/10 bg-container-dark p-4 imperial-border">
-                <p className="text-sm font-bold text-text-light uppercase tracking-wider">{t('main.tunnelPassword')}</p>
-                <div className="mt-2 flex items-center gap-2 rounded bg-black/30 px-4 py-2 w-full justify-center">
-                   <p className="text-xl font-mono text-gold-gradient tracking-widest">{publicIp}</p>
+              <div className="w-full flex flex-col items-center justify-center rounded-xl glass-border bg-accent/5 p-5">
+                <p className="text-xs font-bold text-accent uppercase tracking-widest">{t('main.tunnelPassword')}</p>
+                <div className="mt-3 flex items-center gap-3 rounded-lg bg-black/40 px-6 py-3 w-full justify-center border border-accent/20">
+                   <p className="text-2xl font-mono text-accent-gradient tracking-widest font-bold">{publicIp}</p>
                    <button 
                     onClick={() => { navigator.clipboard.writeText(publicIp); addToast({type: 'info', title: 'Copied', message: 'Password copied to clipboard'})}}
-                    className="ml-2 text-text-medium hover:text-white"
+                    className="ml-1 text-accent hover:text-white transition-colors"
                    >
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                    </button>
                 </div>
-                <p className="mt-2 text-center text-xs text-text-medium max-w-xs">{t('main.tunnelPasswordDesc')}</p>
+                <p className="mt-3 text-center text-xs text-text-medium font-medium max-w-xs">{t('main.tunnelPasswordDesc')}</p>
               </div>
             )}
           </div>
 
-          <div className="flex gap-4">
-             <Link to="/settings" className="text-primary hover:text-primary/80 hover:underline font-bold uppercase tracking-wider text-sm">{t('sidebar.settings')}</Link>
-             <Link to="/gallery" className="text-primary hover:text-primary/80 hover:underline font-bold uppercase tracking-wider text-sm">{t('sidebar.gallery')}</Link>
+          <div className="flex md:flex-col gap-4">
+             <Link to="/settings" className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-text-medium hover:text-white hover:bg-white/10 hover:border-white/20 transition-all font-bold uppercase tracking-wider text-[11px]">{t('sidebar.settings')}</Link>
+             <Link to="/gallery" className="px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary-light hover:text-white hover:bg-primary/20 hover:border-primary/40 transition-all font-bold uppercase tracking-wider text-[11px]">{t('sidebar.gallery')}</Link>
           </div>
         </main>
       </div>

@@ -13,24 +13,22 @@ export function SideNavBar() {
   ];
 
   return (
-    <aside className="flex w-64 flex-col gap-8 border-r border-[#324467]/30 bg-background-light dark:bg-background-dark p-4">
-      <div className="flex items-center gap-3 px-2 py-2">
-        <div className="rounded-lg bg-primary p-2 text-white">
-          <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>swap_horiz</span>
-        </div>
-        <h1 className="text-xl font-bold text-black dark:text-white">{t('common.appName')}</h1>
+    <aside className="flex w-64 flex-col gap-6 border-r border-white/5 bg-background-dark/50 backdrop-blur-xl p-4">
+      <div className="px-4 py-8">
+        <h2 className="text-sm font-black uppercase tracking-[0.2em] text-accent-gradient opacity-80">{t('sidebar.menu')}</h2>
       </div>
+      
       <div className="flex h-full flex-col justify-between">
-        <nav className="flex flex-col gap-2">
+        <nav className="flex flex-col gap-3">
           {menuItems.map((item, index) => {
             if (item.disabled) {
               return (
                 <div 
                   key={index}
-                  className="flex items-center gap-3 rounded-full px-3 py-2 text-black/30 dark:text-white/30 cursor-not-allowed"
+                  className="flex items-center gap-4 rounded-xl px-4 py-3 text-white/20 cursor-not-allowed border border-transparent"
                 >
-                  <span className="material-symbols-outlined" style={item.iconStyle}>{item.icon}</span>
-                  <p className="text-sm font-medium">{t(item.label)}</p>
+                  <span className="material-symbols-outlined text-2xl" style={item.iconStyle}>{item.icon}</span>
+                  <p className="text-xs font-bold uppercase tracking-widest">{t(item.label)}</p>
                 </div>
               );
             }
@@ -39,11 +37,15 @@ export function SideNavBar() {
                 key={item.path}
                 to={item.path} 
                 className={({ isActive }) => 
-                  `flex items-center gap-3 rounded-full px-3 py-2 hover:bg-black/5 dark:hover:bg-white/5 ${isActive ? 'bg-primary/20 text-primary dark:text-white dark:bg-primary' : 'text-black dark:text-white'}`
+                  `flex items-center gap-4 rounded-xl px-4 py-3 transition-all border ${
+                    isActive 
+                      ? 'bg-primary/10 border-primary/20 text-primary-light shadow-[0_0_20px_rgba(59,130,246,0.1)]' 
+                      : 'text-text-medium border-transparent hover:bg-white/5 hover:text-white'
+                  }`
                 }
               >
-                <span className="material-symbols-outlined text-black/60 dark:text-white/60" style={item.iconStyle}>{item.icon}</span>
-                <p className="text-sm font-medium">{t(item.label)}</p>
+                <span className="material-symbols-outlined text-2xl" style={item.iconStyle}>{item.icon}</span>
+                <p className="text-xs font-bold uppercase tracking-widest">{t(item.label)}</p>
               </NavLink>
             );
           })}
