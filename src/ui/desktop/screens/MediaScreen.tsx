@@ -13,7 +13,7 @@ interface ToastMessage {
   duration?: number;
 }
 
-export function MainScreen() {
+export function MediaScreen() {
   const { t } = useTranslation();
   const [serverEnabled, setServerEnabled] = useState(true);
   const [serverIp, setServerIp] = useState<string>("");

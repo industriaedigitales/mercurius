@@ -19,6 +19,13 @@
     "confirmDeleteTitle": "Delete Files?",
     "confirmDeleteMessage": "Are you sure you want to delete {{count}} selected files? This action cannot be undone."
   },
+  "home": {
+    "subtitle": "Select your imperial module",
+    "media": "Media",
+    "documents": "Documents",
+    "backup": "Backup",
+    "comingSoon": "Coming Soon"
+  },
   "sidebar": {
     "dashboard": "Dashboard",
     "transfers": "Transfers",

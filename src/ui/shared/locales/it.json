@@ -17,7 +17,14 @@
     "actions": "Azioni",
     "deleteSelected": "Elimina Selezionati",
     "confirmDeleteTitle": "Eliminare i File?",
-    "confirmDeleteMessage": "Sei sicuro di voler eliminare {{count}} file selezionati? Questa azione non può essere annullata."
+    "confirmDeleteMessage": "Are you sure you want to delete {{count}} selected files? This action cannot be undone."
+  },
+  "home": {
+    "subtitle": "Seleziona il tuo modulo imperiale",
+    "media": "Media",
+    "documents": "Documenti",
+    "backup": "Backup",
+    "comingSoon": "Coming Soon"
   },
   "sidebar": {
     "dashboard": "Dashboard",
