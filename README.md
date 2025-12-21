@@ -2,7 +2,7 @@
 
 **Your Ultimate Local File Transfer & Review Hub.**
 
-Mercurius is a modern, high-speed desktop application designed to bridge the gap between your mobile devices and your computer. It allows you to transfer photos and videos instantly over your local network—no cloud, no internet, no compression.
+Mercurius is a modern, high-speed desktop application designed to bridge the gap between your mobile devices and your computer. It allows you to transfer photos and videos instantly—no cloud, no internet, no compression.
 
 Once your files land on your desktop, Mercurius transforms into a powerful review station. With a **TikTok-style vertical gallery**, you can fly through your uploads, keeping the best shots and discarding the rest with lightning-fast keyboard shortcuts.
 
@@ -11,7 +11,7 @@ Once your files land on your desktop, Mercurius transforms into a powerful revie
 ## 🚀 Why Mercurius?
 
 ### 🔒 **Private & Secure**
-Your data never leaves your local network. Files go directly from your phone to your computer. No third-party servers, no privacy risks.
+By default, your data never leaves your local network. Files go directly from your phone to your computer. No third-party servers, no privacy risks.
 
 ### ⚡ **Blazing Fast**
 Leveraging your local Wi-Fi speed, transfers are instantaneous. Forget about slow cloud uploads and downloads.
@@ -23,27 +23,43 @@ Reviewing hundreds of photos can be tedious. Mercurius makes it fun and efficien
     - ⬅️ **Left Arrow**: Keep (Green Check)
     - ➡️ **Right Arrow**: Reject (Red X)
 
-### 📱 **Universal Compatibility**
-No need to install an app on your phone. Just scan the **QR Code** displayed on the desktop app, and you're ready to upload directly from your mobile browser.
+### 🎨 **Neon-Glass Aesthetics**
+Experience a cutting-edge interface with a **Neon-Glass** design system. Vibrant electric blue accents, glassmorphism effects, and smooth micro-animations provide a premium, tech-inspired feel.
 
 ---
 
 ## ✨ Key Features
 
-- **Instant Local Uploads**: Drag & drop or select files from your mobile device.
-- **Dynamic QR Code**: Automatically detects your local IP for seamless connection.
-- **Custom Upload Directory**: Choose exactly where your files are saved on your PC.
+- **Instant Local Uploads**: Drag & drop or select files from your mobile device via a simple web interface.
+- **Dynamic QR Code**: Automatically detects your local IP for seamless connection—just scan and upload.
+- **Custom Upload Directory**: Choose exactly where your files are saved on your computer.
 - **Smart Gallery**:
     - Supports Images (JPG, PNG, WEBP, SVG) and Videos (MP4, WEBM, MOV).
     - Visual feedback for "Keep" vs "Reject" status.
+- **🖨️ Direct Printing**: Print your photos directly from the gallery interface.
 - **Multilingual**: Native support for **English** 🇬🇧 and **Italian** 🇮🇹.
-- **Dark Mode**: Sleek, eye-friendly interface for late-night editing sessions.
+- **Dark Mode**: Sleek, eye-friendly interface optimized for visibility and style.
+
+---
+
+## ⚠️ Public Mode (Use with Caution)
+
+Mercurius includes an experimental **Public Mode** that allows uploads from external networks (e.g., when your phone is on 4G/5G and your PC is on Wi-Fi).
+
+> [!CAUTION]
+> **Public Mode should only be used in exceptional cases.**
+> For maximum security and speed, always prefer **Local Mode**.
+
+When Public Mode is active:
+1. It uses a `localtunnel` to expose your local server to the internet.
+2. The tunnel is **password-protected**.
+3. Your **Public IP address** (shown on the main screen) acts as the password to access the upload page.
 
 ---
 
 ## 🛠️ Technical Setup
 
-Mercurius is built with cutting-edge web technologies wrapped in a robust Electron shell.
+Mercurius is built with modern web technologies wrapped in a robust Electron shell.
 
 ### Prerequisites
 - **Node.js** (v18 or higher recommended)
@@ -93,10 +109,16 @@ The output will be available in the `dist` folder.
 - **Electron**: Desktop runtime.
 - **React**: UI library.
 - **Vite**: Next-generation frontend tooling.
-- **Hono**: Ultra-fast web standard framework for the local upload server.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **TypeScript**: Type safety and developer experience.
+- **Hono**: Ultra-fast web standard framework for the upload server.
+- **Tailwind CSS**: Styling and layout.
+- **TypeScript**: Type safety and better DX.
 - **i18next**: Internationalization.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
