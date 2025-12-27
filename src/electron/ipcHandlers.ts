@@ -117,4 +117,14 @@ export function setupIpcHandlers(
 
     return true;
   });
+
+  ipcHandle("getOnboarded", async () => {
+    const { getOnboarded } = await import("./store.js");
+    return getOnboarded();
+  });
+
+  ipcHandle("setOnboarded", async (onboarded: boolean) => {
+    const { setOnboarded } = await import("./store.js");
+    setOnboarded(onboarded);
+  });
 }

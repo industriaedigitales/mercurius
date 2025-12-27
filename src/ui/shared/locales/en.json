@@ -88,5 +88,20 @@
     "toggleServer": "Toggle Server",
     "togglePublic": "Toggle Public Mode",
     "documentation": "View Documentation"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to Mercurius",
+      "desc": "The fastest way to transfer files between your desktop and mobile devices on the same network."
+    },
+    "qr": {
+      "title": "Scan to Connect",
+      "desc": "Just scan the QR code with your phone's camera to start sending files instantly. No cables, no accounts."
+    },
+    "privacy": {
+      "title": "Local & Private",
+      "desc": "Your files are transferred directly over your local Wi-Fi. They never touch the cloud."
+    },
+    "getStarted": "Get Started"
   }
 }

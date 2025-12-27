@@ -19,6 +19,9 @@ type EventPayloadMapping = {
   setLanguage: boolean;
   navigate: string;
   "menu-action": string;
+  ipChanged: string;
+  getOnboarded: boolean;
+  setOnboarded: void;
 };
 
 type UnsubscribeFunction = () => void;
@@ -41,6 +44,8 @@ interface Window {
     getPublicIp: () => Promise<string | null>;
     getLanguage: () => Promise<string>;
     setLanguage: (lang: string) => Promise<boolean>;
+    getOnboarded: () => Promise<boolean>;
+    setOnboarded: (onboarded: boolean) => Promise<void>;
     subscribeDeviceConnected: (
       callback: (deviceInfo: { deviceName: string; deviceType: string; userAgent: string }) => void
     ) => UnsubscribeFunction;
@@ -52,6 +57,9 @@ interface Window {
     ) => UnsubscribeFunction;
     subscribeMenuAction: (
       callback: (action: string) => void
+    ) => UnsubscribeFunction;
+    subscribeIpChanged: (
+      callback: (ip: string) => void
     ) => UnsubscribeFunction;
   };
 }

@@ -23,6 +23,7 @@
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "@tailwindcss/vite": "^4.1.16",
+    "electron-log": "^5.4.3",
     "file-upload": "^0.0.0",
     "hono": "^4.10.4",
     "i18next": "^25.6.3",

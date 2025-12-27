@@ -19,6 +19,8 @@ electron.contextBridge.exposeInMainWorld("electron", {
   getPublicIp: () => ipcInvoke("getPublicIp"),
   getLanguage: () => ipcInvoke("getLanguage"),
   setLanguage: (lang) => ipcInvoke("setLanguage", lang),
+  getOnboarded: () => ipcInvoke("getOnboarded"),
+  setOnboarded: (onboarded) => ipcInvoke("setOnboarded", onboarded),
   subscribeDeviceConnected: (callback) => {
     return ipcOn("deviceConnected", (deviceInfo) => {
       callback(deviceInfo);
@@ -37,6 +39,11 @@ electron.contextBridge.exposeInMainWorld("electron", {
   subscribeMenuAction: (callback) => {
     return ipcOn("menu-action", (action) => {
       callback(action);
+    });
+  },
+  subscribeIpChanged: (callback) => {
+    return ipcOn("ipChanged", (ip) => {
+      callback(ip);
     });
   },
 } satisfies Window["electron"]);

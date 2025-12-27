@@ -1,6 +1,18 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, session } from "electron";
 import path from "path";
-import { isDev } from "./utils.js";
+import { isDev, getLanIp } from "./utils.js";
+import log from 'electron-log/main.js';
+
+log.initialize();
+log.info('Mercurius starting...');
+
+process.on('uncaughtException', (err) => {
+  log.error('Main process uncaught exception:', err);
+});
+
+process.on('unhandledRejection', (reason) => {
+  log.error('Main process unhandled rejection:', reason);
+});
 import { getPreloadPath, getUiPath } from "./pathResolver.js";
 import { listFiles } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
@@ -22,11 +34,11 @@ let isQuitting = false;
 
 function startWebServer() {
   if (webServerProcess) {
-    console.log("Web server already running.");
+    log.info("Web server already running.");
     return;
   }
 
-  console.log("Starting web server...");
+  log.info("Starting web server...");
   try {
     let serverPath: string;
     if (isDev()) {
@@ -35,10 +47,10 @@ function startWebServer() {
       serverPath = path.join(process.resourcesPath, "server", "server.mjs");
     }
     
-    console.log("Server path:", serverPath);
+    log.info("Server path:", serverPath);
 
     const uploadDir = getUploadDirectory();
-    console.log("Upload directory:", uploadDir);
+    log.info("Upload directory:", uploadDir);
 
     const child = spawn(process.execPath, [serverPath, uploadDir], {
       stdio: ["inherit", "inherit", "inherit", "ipc"],
@@ -65,31 +77,31 @@ function startWebServer() {
     });
 
     child.on("error", (err) => {
-      console.error("Web server error:", err);
+      log.error("Web server error:", err);
       if (webServerProcess === child) {
         webServerProcess = null;
       }
     });
     
     child.on("exit", (code, signal) => {
-      console.log(`Web server exited with code ${code} and signal ${signal}`);
+      log.info(`Web server exited with code ${code} and signal ${signal}`);
       if (webServerProcess === child) {
         webServerProcess = null;
       }
     });
   } catch (err) {
-    console.error("Failed to start web server:", err);
+    log.error("Failed to start web server:", err);
   }
 }
 
 function stopWebServer() {
-  console.log("Stopping web server...");
+  log.info("Stopping web server...");
   if (webServerProcess) {
     webServerProcess.kill();
     webServerProcess = null;
-    console.log("Web server stopped.");
+    log.info("Web server stopped.");
   } else {
-    console.log("No web server to stop.");
+    log.info("No web server to stop.");
   }
   stopTunnel();
 }
@@ -98,27 +110,27 @@ async function startTunnel() {
   if (tunnel) return tunnelUrl;
   
   try {
-    console.log("Starting localtunnel...");
+    log.info("Starting localtunnel...");
     tunnel = await localtunnel({ port: 3000 });
     tunnelUrl = tunnel.url;
-    console.log("Tunnel started at:", tunnelUrl);
+    log.info("Tunnel started at:", tunnelUrl);
     
     tunnel.on("close", () => {
-      console.log("Tunnel closed");
+      log.info("Tunnel closed");
       tunnel = null;
       tunnelUrl = null;
     });
 
     return tunnelUrl;
   } catch (err) {
-    console.error("Failed to start tunnel:", err);
+    log.error("Failed to start tunnel:", err);
     throw err;
   }
 }
 
 function stopTunnel() {
   if (tunnel) {
-    console.log("Stopping tunnel...");
+    log.info("Stopping tunnel...");
     tunnel.close();
     tunnel = null;
     tunnelUrl = null;
@@ -137,11 +149,27 @@ function restartWebServer() {
 }
 
 app.on("ready", async () => {
-  await initI18n();
+  try {
+    await initI18n();
+  } catch (err) {
+    log.error("Failed to initialize i18n:", err);
+  }
   startWebServer();
   
+  const isMac = process.platform === 'darwin';
+  const isWin = process.platform === 'win32';
+
   mainWindow = new BrowserWindow({
     show: false, // Start hidden as requested
+    titleBarStyle: isMac ? 'hiddenInset' : (isWin ? 'hidden' : 'default'),
+    ...(isWin ? {
+      titleBarOverlay: {
+        color: '#0a0a0a',
+        symbolColor: '#ffffff',
+        height: 40
+      }
+    } : {}),
+    trafficLightPosition: isMac ? { x: 20, y: 20 } : undefined,
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
@@ -161,9 +189,36 @@ app.on("ready", async () => {
   applyWindowState(mainWindow);
   createTray(mainWindow);
 
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const csp = isDev()
+      ? "default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' http://localhost:* ws://localhost:*;"
+      : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data:; connect-src 'self' http://localhost:* ws://localhost:*;";
+
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [csp]
+      }
+    });
+  });
+
+  session.defaultSession.on('will-download', () => {}); // Just a stub if needed
+  
+  let lastIp = getLanIp();
+  setInterval(() => {
+    const currentIp = getLanIp();
+    if (currentIp !== lastIp) {
+      log.info('IP change detected by polling:', lastIp, '->', currentIp);
+      lastIp = currentIp;
+      if (mainWindow) {
+        mainWindow.webContents.send('ipChanged', lastIp);
+      }
+    }
+  }, 10000);
+
   mainWindow.once('ready-to-show', () => {
     // We don't call show() here because user requested "start hidden"
-    console.log("App is ready. Running in tray.");
+    log.info("App is ready. Running in tray.");
   });
 
   mainWindow.on('close', (event) => {

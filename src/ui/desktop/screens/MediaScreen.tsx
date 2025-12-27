@@ -66,11 +66,23 @@ export function MediaScreen() {
     window.addEventListener('menu-toggle-server', handleMenuToggleServer);
     window.addEventListener('menu-toggle-public', handleMenuTogglePublic);
 
+    const unsubscribeIp = window.electron.subscribeIpChanged((newIp) => {
+      setServerIp(newIp);
+    });
+
+    const handleOnline = () => {
+      window.electron.getServerIp().then(setServerIp);
+    };
+
+    window.addEventListener('online', handleOnline);
+
     return () => {
       unsubscribeDevice();
       unsubscribeFile();
+      unsubscribeIp();
       window.removeEventListener('menu-toggle-server', handleMenuToggleServer);
       window.removeEventListener('menu-toggle-public', handleMenuTogglePublic);
+      window.removeEventListener('online', handleOnline);
     };
   }, [t, serverEnabled, isPublic]);
 

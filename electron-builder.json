@@ -1,27 +1,63 @@
 {
   "appId": "com.industriaedigitales.mercurius",
-  "files": ["dist-electron", "dist-react"],
+  "productName": "Mercurius",
+  "copyright": "Copyright © 2025 Luca Pulina",
+  "directories": {
+    "output": "release",
+    "buildResources": "build"
+  },
+  "files": [
+    "dist-electron/**/*",
+    "dist-react/**/*",
+    "package.json"
+  ],
   "extraResources": [
-    "dist-electron/preload.cjs",
-    "src/assets/**",
     {
       "from": "dist-server/server.mjs",
       "to": "server/server.mjs"
-    },
-    {
-      "from": "dist-react",
-      "to": "web-client"
     }
   ],
   "icon": "./desktopIcon.png",
   "mac": {
-    "target": "dmg"
+    "category": "public.app-category.utilities",
+    "target": ["dmg", "zip"],
+    "minimumSystemVersion": "10.15.0",
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "build/entitlements.mac.plist",
+    "entitlementsInherit": "build/entitlements.mac.plist"
   },
-  "linux": {
-    "target": "AppImage",
-    "category": "Utility"
+  "dmg": {
+    "contents": [
+      {
+        "x": 130,
+        "y": 220
+      },
+      {
+        "x": 410,
+        "y": 220,
+        "type": "link",
+        "path": "/Applications"
+      }
+    ]
   },
   "win": {
-    "target": ["portable", "msi"]
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "publisherName": "Luca Pulina"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true
+  },
+  "linux": {
+    "target": ["AppImage", "deb"],
+    "category": "Utility"
   }
 }

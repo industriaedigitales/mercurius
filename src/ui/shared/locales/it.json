@@ -88,5 +88,20 @@
     "toggleServer": "Attiva/Disattiva Server",
     "togglePublic": "Attiva/Disattiva Modalità Pubblica",
     "documentation": "Visualizza Documentazione"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Benvenuto su Mercurius",
+      "desc": "Il modo più veloce per trasferire file tra il tuo computer e i tuoi dispositivi mobili sulla stessa rete."
+    },
+    "qr": {
+      "title": "Scansiona per Connetterti",
+      "desc": "Inquadra il codice QR con la fotocamera del tuo telefono per iniziare a inviare file istantaneamente. Niente cavi, niente account."
+    },
+    "privacy": {
+      "title": "Locale e Privato",
+      "desc": "I tuoi file vengono trasferiti direttamente tramite il tuo Wi-Fi locale. Non passano mai per il cloud."
+    },
+    "getStarted": "Inizia Ora"
   }
 }
