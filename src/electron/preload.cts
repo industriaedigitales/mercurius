@@ -17,6 +17,8 @@ electron.contextBridge.exposeInMainWorld("electron", {
   stopTunnel: () => ipcInvoke("stopTunnel"),
   getTunnelUrl: () => ipcInvoke("getTunnelUrl"),
   getPublicIp: () => ipcInvoke("getPublicIp"),
+  getLanguage: () => ipcInvoke("getLanguage"),
+  setLanguage: (lang) => ipcInvoke("setLanguage", lang),
   subscribeDeviceConnected: (callback) => {
     return ipcOn("deviceConnected", (deviceInfo) => {
       callback(deviceInfo);
@@ -25,6 +27,16 @@ electron.contextBridge.exposeInMainWorld("electron", {
   subscribeFileUploaded: (callback) => {
     return ipcOn("fileUploaded", (uploadInfo) => {
       callback(uploadInfo);
+    });
+  },
+  subscribeNavigate: (callback) => {
+    return ipcOn("navigate", (path) => {
+      callback(path);
+    });
+  },
+  subscribeMenuAction: (callback) => {
+    return ipcOn("menu-action", (action) => {
+      callback(action);
     });
   },
 } satisfies Window["electron"]);

@@ -100,4 +100,21 @@ export function setupIpcHandlers(
 
     return newDir;
   });
+
+  ipcHandle("getLanguage", async () => {
+    const { getLanguage } = await import("./store.js");
+    return getLanguage();
+  });
+
+  ipcHandle("setLanguage", async (lang: string) => {
+    const { setLanguage: storeSetLanguage } = await import("./store.js");
+    const { changeLanguage, t } = await import("./i18n.js");
+    const { setupMenu } = await import("./menu.js");
+
+    storeSetLanguage(lang);
+    await changeLanguage(lang);
+    setupMenu(mainWindow, server);
+
+    return true;
+  });
 }

@@ -55,11 +55,24 @@ export function MediaScreen() {
       });
     });
 
+    const handleMenuToggleServer = () => {
+      handleToggleServer(!serverEnabled);
+    };
+
+    const handleMenuTogglePublic = () => {
+      handleTogglePublic(!isPublic);
+    };
+
+    window.addEventListener('menu-toggle-server', handleMenuToggleServer);
+    window.addEventListener('menu-toggle-public', handleMenuTogglePublic);
+
     return () => {
       unsubscribeDevice();
       unsubscribeFile();
+      window.removeEventListener('menu-toggle-server', handleMenuToggleServer);
+      window.removeEventListener('menu-toggle-public', handleMenuTogglePublic);
     };
-  }, [t]);
+  }, [t, serverEnabled, isPublic]);
 
   const addToast = (toast: Omit<ToastMessage, 'id'>) => {
     const id = Date.now();

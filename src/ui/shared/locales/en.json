@@ -73,5 +73,20 @@
     "uploading": "Uploading...",
     "success": "Upload Successful!",
     "error": "Upload Failed"
+  },
+  "menu": {
+    "about": "About Mercurius",
+    "preferences": "Preferences...",
+    "quit": "Quit Mercurius",
+    "file": "File",
+    "edit": "Edit",
+    "view": "View",
+    "window": "Window",
+    "help": "Help",
+    "gallery": "Open Gallery",
+    "server": "Server",
+    "toggleServer": "Toggle Server",
+    "togglePublic": "Toggle Public Mode",
+    "documentation": "View Documentation"
   }
 }

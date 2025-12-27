@@ -10,7 +10,10 @@ export function SettingsScreen() {
 
   useEffect(() => {
     window.electron.getUploadDirectory().then(setUploadDirectory);
-  }, []);
+    window.electron.getLanguage().then(lang => {
+      i18n.changeLanguage(lang);
+    });
+  }, [i18n]);
 
   const handleBrowse = async () => {
     const dir = await window.electron.selectDirectory();
@@ -70,7 +73,11 @@ export function SettingsScreen() {
                 <div className="flex items-center gap-4">
                   <select
                     value={i18n.language}
-                    onChange={(e) => i18n.changeLanguage(e.target.value)}
+                    onChange={(e) => {
+                      const lang = e.target.value;
+                      i18n.changeLanguage(lang);
+                      window.electron.setLanguage(lang);
+                    }}
                     className="flex h-14 w-full max-w-[480px] items-center rounded-xl glass-border bg-white/5 px-4 text-base font-bold text-white focus:border-primary focus:outline-none hover:bg-white/10 transition-colors cursor-pointer"
                   >
                     <option value="en" className="bg-background-dark">{t('settings.english')}</option>

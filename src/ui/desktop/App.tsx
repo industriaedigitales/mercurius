@@ -3,11 +3,13 @@ import { MediaScreen } from "./screens/MediaScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
 import { GalleryScreen } from "./screens/GalleryScreen";
 import { SelectionScreen } from "./screens/SelectionScreen";
+import { MenuListener } from "./components/MenuListener";
 import "./App.css";
 
 function App() {
   return (
     <HashRouter>
+      <MenuListener />
       <Routes>
         <Route path="/" element={<SelectionScreen />} />
         <Route path="/media" element={<MediaScreen />} />

@@ -73,5 +73,20 @@
     "uploading": "Caricamento in corso...",
     "success": "Caricamento Riuscito!",
     "error": "Caricamento Fallito"
+  },
+  "menu": {
+    "about": "Informazioni su Mercurius",
+    "preferences": "Preferenze...",
+    "quit": "Esci da Mercurius",
+    "file": "File",
+    "edit": "Modifica",
+    "view": "Vista",
+    "window": "Finestra",
+    "help": "Aiuto",
+    "gallery": "Apri Galleria",
+    "server": "Server",
+    "toggleServer": "Attiva/Disattiva Server",
+    "togglePublic": "Attiva/Disattiva Modalità Pubblica",
+    "documentation": "Visualizza Documentazione"
   }
 }

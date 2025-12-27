@@ -4,6 +4,7 @@ import fs from 'fs';
 
 interface Settings {
   uploadDirectory: string;
+  language: string;
 }
 
 const userDataPath = app.getPath('userData');
@@ -11,6 +12,7 @@ const settingsPath = path.join(userDataPath, 'settings.json');
 
 const defaultSettings: Settings = {
   uploadDirectory: path.join(app.getPath('home'), 'Downloads', 'MercuriusUploads'),
+  language: 'en',
 };
 
 export function getSettings(): Settings {
@@ -42,5 +44,15 @@ export function getUploadDirectory(): string {
 export function setUploadDirectory(dir: string): void {
   const settings = getSettings();
   settings.uploadDirectory = dir;
+  saveSettings(settings);
+}
+
+export function getLanguage(): string {
+  return getSettings().language;
+}
+
+export function setLanguage(lang: string): void {
+  const settings = getSettings();
+  settings.language = lang;
   saveSettings(settings);
 }

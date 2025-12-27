@@ -15,6 +15,10 @@ type EventPayloadMapping = {
   stopTunnel: void;
   getTunnelUrl: string | null;
   getPublicIp: string | null;
+  getLanguage: string;
+  setLanguage: boolean;
+  navigate: string;
+  "menu-action": string;
 };
 
 type UnsubscribeFunction = () => void;
@@ -35,11 +39,19 @@ interface Window {
     stopTunnel: () => Promise<void>;
     getTunnelUrl: () => Promise<string | null>;
     getPublicIp: () => Promise<string | null>;
+    getLanguage: () => Promise<string>;
+    setLanguage: (lang: string) => Promise<boolean>;
     subscribeDeviceConnected: (
       callback: (deviceInfo: { deviceName: string; deviceType: string; userAgent: string }) => void
     ) => UnsubscribeFunction;
     subscribeFileUploaded: (
       callback: (uploadInfo: { count: number; files: string[] }) => void
+    ) => UnsubscribeFunction;
+    subscribeNavigate: (
+      callback: (path: string) => void
+    ) => UnsubscribeFunction;
+    subscribeMenuAction: (
+      callback: (action: string) => void
     ) => UnsubscribeFunction;
   };
 }

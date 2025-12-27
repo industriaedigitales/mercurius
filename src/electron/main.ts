@@ -6,13 +6,19 @@ import { listFiles } from "./fileManager.js";
 import { spawn, ChildProcess } from "child_process";
 import { getUploadDirectory } from "./store.js";
 import { setupIpcHandlers } from "./ipcHandlers.js";
+import { createTray } from "./tray.js";
+import { setupMenu } from "./menu.js";
+import { applyWindowState, saveWindowState } from "./windowState.js";
 // @ts-ignore
 import localtunnel from "localtunnel";
+
+import { initI18n } from "./i18n.js";
 
 let webServerProcess: ChildProcess | null = null;
 let tunnel: any = null;
 let tunnelUrl: string | null = null;
-
+let mainWindow: BrowserWindow | null = null;
+let isQuitting = false;
 
 function startWebServer() {
   if (webServerProcess) {
@@ -70,10 +76,6 @@ function startWebServer() {
       if (webServerProcess === child) {
         webServerProcess = null;
       }
-    });
-
-    app.on("will-quit", () => {
-      stopWebServer();
     });
   } catch (err) {
     console.error("Failed to start web server:", err);
@@ -134,10 +136,12 @@ function restartWebServer() {
   startWebServer();
 }
 
-app.on("ready", () => {
+app.on("ready", async () => {
+  await initI18n();
   startWebServer();
-  const mainWindow = new BrowserWindow({
-    show: false,
+  
+  mainWindow = new BrowserWindow({
+    show: false, // Start hidden as requested
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
@@ -145,10 +149,32 @@ app.on("ready", () => {
     },
   });
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.maximize();
-    mainWindow.show();
+  setupMenu(mainWindow, {
+    start: startWebServer,
+    stop: stopWebServer,
+    restart: restartWebServer,
+    startTunnel,
+    stopTunnel,
+    getTunnelUrl
   });
+
+  applyWindowState(mainWindow);
+  createTray(mainWindow);
+
+  mainWindow.once('ready-to-show', () => {
+    // We don't call show() here because user requested "start hidden"
+    console.log("App is ready. Running in tray.");
+  });
+
+  mainWindow.on('close', (event) => {
+    if (!isQuitting) {
+      event.preventDefault();
+      mainWindow?.hide();
+    }
+  });
+
+  mainWindow.on('moved', () => saveWindowState(mainWindow!));
+  mainWindow.on('resized', () => saveWindowState(mainWindow!));
 
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5123");
@@ -157,7 +183,9 @@ app.on("ready", () => {
   }
 
   mainWindow.webContents.once("did-finish-load", () => {
-    setTimeout(() => listFiles(mainWindow), 1000);
+    setTimeout(() => {
+      if (mainWindow) listFiles(mainWindow);
+    }, 1000);
   });
 
   setupIpcHandlers(mainWindow, {
@@ -168,4 +196,21 @@ app.on("ready", () => {
     stopTunnel,
     getTunnelUrl
   });
+});
+
+app.on("before-quit", () => {
+  isQuitting = true;
+});
+
+app.on("will-quit", () => {
+  stopWebServer();
+});
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    // Re-create window if it was closed (only on macOS usually)
+    // But we are hiding it, so this might not be needed unless we change logic.
+  } else {
+    mainWindow?.show();
+  }
 });
