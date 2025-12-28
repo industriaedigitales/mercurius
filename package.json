@@ -2,6 +2,8 @@
   "name": "mercurius",
   "private": true,
   "version": "0.1.0",
+  "description": "Mercurius - a local file transfer application.",
+  "author": "Luca Pulina",
   "type": "module",
   "license": "MIT",
   "main": "dist-electron/main.js",

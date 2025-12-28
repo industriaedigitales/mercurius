@@ -28,14 +28,18 @@
     "entitlementsInherit": "build/entitlements.mac.plist"
   },
   "dmg": {
+    "window": {
+      "width": 540,
+      "height": 380
+    },
     "contents": [
       {
         "x": 130,
-        "y": 220
+        "y": 190
       },
       {
         "x": 410,
-        "y": 220,
+        "y": 190,
         "type": "link",
         "path": "/Applications"
       }
@@ -46,15 +50,24 @@
       {
         "target": "nsis",
         "arch": ["x64"]
+      },
+      {
+        "target": "msi",
+        "arch": ["x64"]
       }
-    ],
-    "publisherName": "Luca Pulina"
+    ]
   },
   "nsis": {
     "oneClick": false,
+    "perMachine": true,
     "allowToChangeInstallationDirectory": true,
-    "createDesktopShortcut": true,
-    "createStartMenuShortcut": true
+    "createDesktopShortcut": "always",
+    "createStartMenuShortcut": true,
+    "shortcutName": "Mercurius",
+    "runAfterFinish": true
+  },
+  "msi": {
+    "oneClick": false
   },
   "linux": {
     "target": ["AppImage", "deb"],
