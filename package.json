@@ -1,7 +1,7 @@
 {
   "name": "mercurius",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Mercurius - a local file transfer application.",
   "author": "Luca Pulina",
   "type": "module",
