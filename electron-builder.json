@@ -9,6 +9,7 @@
   "files": [
     "dist-electron/**/*",
     "dist-react/**/*",
+    "src/assets/**/*",
     "package.json"
   ],
   "extraResources": [
@@ -17,7 +18,7 @@
       "to": "server/server.mjs"
     }
   ],
-  "icon": "./desktopIcon.png",
+  "icon": "build/icon.png",
   "mac": {
     "category": "public.app-category.utilities",
     "target": ["dmg", "zip"],

@@ -5,17 +5,18 @@ import { isDev } from './utils.js';
 let tray: Tray | null = null;
 
 export function createTray(mainWindow: BrowserWindow) {
-  const iconPath = isDev() 
-    ? path.join(process.cwd(), 'desktopIcon.png') 
-    : path.join(process.resourcesPath, 'desktopIcon.png');
+  const iconPath = path.join(app.getAppPath(), 'src/assets', 'trayIcon.png');
   
   const icon = nativeImage.createFromPath(iconPath);
-  // Optional: on macOS, template images are preferred for menu bar icons
+  
+  // Su macOS, le immagini template si adattano automaticamente se la barra è chiara o scura
   if (process.platform === 'darwin') {
     icon.setTemplateImage(true);
   }
 
-  tray = new Tray(icon.resize({ width: 16, height: 16 }));
+  // Ridimensionamento standard per tray icon
+  const trayIcon = icon.resize({ width: 18, height: 18 });
+  tray = new Tray(trayIcon);
   
   const contextMenu = Menu.buildFromTemplate([
     { 
