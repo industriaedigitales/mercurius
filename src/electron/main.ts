@@ -191,8 +191,8 @@ app.on("ready", async () => {
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     const csp = isDev()
-      ? "default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' http://localhost:* ws://localhost:*;"
-      : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data:; connect-src 'self' http://localhost:* ws://localhost:*;";
+      ? "default-src 'self' http://localhost:* ws://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: blob: http:; video-src 'self' data: blob: http:; connect-src 'self' http://localhost:* ws://localhost:* http://*:*;"
+      : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: http:; video-src 'self' data: blob: http:; connect-src 'self' http://localhost:* ws://localhost:* http://*:*;";
 
     callback({
       responseHeaders: {
