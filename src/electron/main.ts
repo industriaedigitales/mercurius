@@ -217,8 +217,8 @@ app.on("ready", async () => {
   }, 10000);
 
   mainWindow.once('ready-to-show', () => {
-    // We don't call show() here because user requested "start hidden"
-    log.info("App is ready. Running in tray.");
+    mainWindow?.show();
+    log.info("App is ready.");
   });
 
   mainWindow.on('close', (event) => {

@@ -8,17 +8,22 @@ interface Settings {
   onboarded: boolean;
 }
 
-const userDataPath = app.getPath('userData');
-const settingsPath = path.join(userDataPath, 'settings.json');
+function getSettingsPath(): string {
+  return path.join(app.getPath('userData'), 'settings.json');
+}
 
-const defaultSettings: Settings = {
-  uploadDirectory: path.join(app.getPath('home'), 'Downloads', 'MercuriusUploads'),
-  language: 'en',
-  onboarded: false,
-};
+function getDefaultSettings(): Settings {
+  return {
+    uploadDirectory: path.join(app.getPath('home'), 'Downloads', 'MercuriusUploads'),
+    language: 'en',
+    onboarded: false,
+  };
+}
 
 export function getSettings(): Settings {
   try {
+    const settingsPath = getSettingsPath();
+    const defaultSettings = getDefaultSettings();
     if (!fs.existsSync(settingsPath)) {
       saveSettings(defaultSettings);
       return defaultSettings;
@@ -27,12 +32,13 @@ export function getSettings(): Settings {
     return { ...defaultSettings, ...JSON.parse(data) };
   } catch (error) {
     console.error('Error reading settings:', error);
-    return defaultSettings;
+    return getDefaultSettings();
   }
 }
 
 export function saveSettings(settings: Settings): void {
   try {
+    const settingsPath = getSettingsPath();
     fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
   } catch (error) {
     console.error('Error saving settings:', error);

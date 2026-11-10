@@ -5,7 +5,7 @@ import { isDev } from './utils.js';
 let tray: Tray | null = null;
 
 export function createTray(mainWindow: BrowserWindow) {
-  const iconPath = path.join(app.getAppPath(), 'src/assets', 'trayIcon.png');
+  const iconPath = path.join(app.getAppPath(), 'src', 'assets', 'trayIcon.png');
   
   const icon = nativeImage.createFromPath(iconPath);
   

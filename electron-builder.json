@@ -6,27 +6,33 @@
     "output": "release",
     "buildResources": "build"
   },
+  "publish": {
+    "provider": "github",
+    "owner": "industriaedigitales",
+    "repo": "mercurius"
+  },
   "files": [
     "dist-electron/**/*",
     "dist-react/**/*",
     "src/assets/**/*",
+    "src/ui/shared/locales/**/*",
     "package.json"
   ],
   "extraResources": [
     {
       "from": "dist-server/server.mjs",
       "to": "server/server.mjs"
+    },
+    {
+      "from": "dist-react",
+      "to": "web-client"
     }
   ],
   "icon": "build/icon.png",
   "mac": {
     "category": "public.app-category.utilities",
-    "target": ["dmg", "zip"],
-    "minimumSystemVersion": "10.15.0",
-    "hardenedRuntime": true,
-    "gatekeeperAssess": false,
-    "entitlements": "build/entitlements.mac.plist",
-    "entitlementsInherit": "build/entitlements.mac.plist"
+    "target": ["dir", "zip", "dmg"],
+    "identity": null
   },
   "dmg": {
     "window": {
@@ -53,25 +59,22 @@
         "arch": ["x64"]
       },
       {
-        "target": "msi",
+        "target": "portable",
         "arch": ["x64"]
       }
     ]
   },
   "nsis": {
     "oneClick": false,
-    "perMachine": true,
+    "perMachine": false,
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortcut": "always",
     "createStartMenuShortcut": true,
     "shortcutName": "Mercurius",
     "runAfterFinish": true
   },
-  "msi": {
-    "oneClick": false
-  },
   "linux": {
-    "target": ["AppImage", "deb"],
+    "target": ["AppImage"],
     "category": "Utility"
   }
 }
