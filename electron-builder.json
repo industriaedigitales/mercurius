@@ -9,7 +9,8 @@
   "publish": {
     "provider": "github",
     "owner": "industriaedigitales",
-    "repo": "mercurius"
+    "repo": "mercurius",
+    "releaseType": "release"
   },
   "files": [
     "dist-electron/**/*",
